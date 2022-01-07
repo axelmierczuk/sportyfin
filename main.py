@@ -11,7 +11,6 @@ except ImportError:
     from bs4 import BeautifulSoup
 
 
-# Enums
 NBA = "nba"
 NHL = "nhl"
 NFL = "nfl"
@@ -79,12 +78,8 @@ def find_streams(lg: str):
         parsed_html = BeautifulSoup(r.request("GET", "https://reddit.rnbastreams.com/").text, features="lxml")
         for tag in parsed_html.body.find_all('a', attrs={'href': re.compile('/game/.*')}):
             if len(tag.find_all('span', string="Full time ")) == 0 and len(tag.find_all('i', attrs={"class": "icon-clock"})) == 0:
-                # GET INFO
-                try:
-                    match = get_game_info(tag)
-                    print(match)
-                except Exception as e:
-                    print("[-] Error getting team information.")
+                match = get_game_info(tag)
+                print(match)
                 games.append(f"https://sportscentral.io/streams-table/{tag.get('href')[-6:]}/basketball?new-ui=1&origin=reddit.rnbastreams.com")
         for link in games:
             stream_link = pull_bitly_link(link)
