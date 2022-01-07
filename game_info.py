@@ -58,8 +58,6 @@ def generate_img(m, sport: str) -> str:
         ht_p = (f"output/{sport}/{str(hashlib.sha1(ht['name'].encode()).hexdigest())}.png", ht['icon_url'])
         at_p = (f"output/{sport}/{str(hashlib.sha1(at['name'].encode()).hexdigest())}.png", at['icon_url'])
         list_im = download_jpg([ht_p, at_p])
-
-        print(list_im)
         if len(list_im) > 1:
             concat_images(list_im, f"output/{sport}/{location}.jpg")
         elif len(list_im) == 1:
@@ -102,6 +100,5 @@ def get_game_info(tag):
         match['match']['name'] = f"{match['away_team']['name']} at {match['home_team']['name']}"
         match['match']['img_location'] = generate_img(match, NBA)
         return match
-    except Exception as e:
+    except:
         print("[-] Error getting team information.")
-        print(e)

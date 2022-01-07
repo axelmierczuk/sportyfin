@@ -79,13 +79,11 @@ def find_streams(lg: str):
         for tag in parsed_html.body.find_all('a', attrs={'href': re.compile('/game/.*')}):
             if len(tag.find_all('span', string="Full time ")) == 0 and len(tag.find_all('i', attrs={"class": "icon-clock"})) == 0:
                 match = get_game_info(tag)
-                print(match)
                 games.append(f"https://sportscentral.io/streams-table/{tag.get('href')[-6:]}/basketball?new-ui=1&origin=reddit.rnbastreams.com")
         for link in games:
             stream_link = pull_bitly_link(link)
             if not (not stream_link or stream_link in res):
                 res.append(stream_link)
-        print(res)
         return res
     elif lg == NHL:
         return []
