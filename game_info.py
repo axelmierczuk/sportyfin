@@ -4,6 +4,7 @@ from PIL import Image, ImageDraw
 import subprocess
 import hashlib
 import league_colours
+import pretty_print
 
 NBA = "nba"
 NHL = "nhl"
@@ -18,8 +19,11 @@ def download_jpg(lp: list[(str, str)]) -> list[str]:
                 print(f"[*] Downloading {lpi[1]} to {lpi[0]}")
                 subprocess.run(["wget", lpi[1], "-O", lpi[0]], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
                 res.append(lpi[0])
+            except KeyboardInterrupt:
+                sys.exit()
+                pass
             except Exception as e:
-                print(f"Could not download {lpi[1]}: {e}")
+                pretty_print.p(f"Error occurred attempting to download - {lpi[1]}", pretty_print.colours.FAIL, pretty_print.otype.ERROR, e)
         else:
             res.append(lpi[0])
     return res
@@ -80,8 +84,11 @@ def generate_img(m, sport: str) -> str:
         if len(list_im) > 1:
             try:
                 concat_images(list_im, f"output/{sport}/{location}.jpg", ht['name'], at['name'], sport)
+            except KeyboardInterrupt:
+                sys.exit()
+                pass
             except Exception as e:
-                print(e.with_traceback())
+                pretty_print.p(f"Error building game icon", pretty_print.colours.FAIL, pretty_print.otype.ERROR, e)
         elif len(list_im) == 1:
             return list_im[0]
         else:
@@ -127,5 +134,4 @@ def get_game_info(tag, league):
         sys.exit()
         pass
     except Exception as ex:
-        print(ex.with_traceback())
-        print("[-] Error getting team information")
+        pretty_print.p("[-] Error getting team information", pretty_print.colours.FAIL, pretty_print.otype.ERROR, ex)

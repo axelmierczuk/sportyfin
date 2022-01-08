@@ -31,7 +31,11 @@ class StreamCollector:
             if res == 0:
                 p(f"COULD NOT FIND {lg.upper()} M3U8 LINKS", colours.FAIL, otype.REGULAR)
 
+    def generate_xmltv(self):
+        pass
+
     def generate_m3u(self):
+        self.generate_xmltv()
         pass
 
 def main() -> list[str]:
@@ -45,6 +49,8 @@ if __name__ == "__main__":
     for i in sys.argv:
         if str(i) == "-v":
             pretty_print.verbosity = True
+        if str(i) == "-vv":
+            pretty_print.no_verbosity = True
         if str(i) == "-s":
             scraping.selenium_enabled = True
         if str(i).startswith("-n"):

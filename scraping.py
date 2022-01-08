@@ -76,17 +76,13 @@ def selenium_find(link: str) -> list[str]:
                 sys.exit()
                 pass
             except Exception as e:
-                if verbosity:
-                    p(e, colours.FAIL, otype.ERROR)
-                    print(e.with_traceback())
+                p("Something went wrong pulling a m3u8 link", colours.FAIL, otype.ERROR, e)
                 continue
     except KeyboardInterrupt:
         sys.exit()
         pass
     except Exception as e:
-        if verbosity:
-            p(e, colours.FAIL, otype.ERROR)
-            print(e.with_traceback())
+        p("Something went wrong with Selenium", colours.FAIL, otype.ERROR, e)
     return list(dict.fromkeys(res))
 
 
@@ -134,7 +130,7 @@ def bypass_bitly(ll: list[str]) -> list[str]:
             sys.exit()
             pass
         except Exception as e:
-            print(e.with_traceback())
+            p("Error occurred bypassing bitly", colours.FAIL, otype.ERROR, e)
     return list(dict.fromkeys(res))
 
 

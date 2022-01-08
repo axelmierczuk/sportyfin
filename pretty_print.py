@@ -1,5 +1,5 @@
 verbosity = False
-
+no_verbosity = False
 
 class otype:
     ERROR = '-'
@@ -20,12 +20,14 @@ class colours:
 
 
 def check_verbosity(t: str = otype.DEBUG):
-    return not(t == otype.DEBUG and not verbosity)
+    return not(t == otype.DEBUG and not verbosity) and not no_verbosity
 
 
-def p(s: str, c: str = "", t: str = otype.DEBUG) -> str:
+def p(s: str, c: str = "", t: str = otype.DEBUG, err: Exception = None) -> str:
     if check_verbosity(t):
         print(f"{c}[{t}]{colours.ENDC if t != otype.REGULAR else ''} {s}{colours.ENDC}")
+    if err and verbosity and not no_verbosity:
+        print(err.with_traceback())
 
 
 def pind(s: str, c: str = "", t: str = otype.DEBUG) -> str:
