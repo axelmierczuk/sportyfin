@@ -2,13 +2,12 @@ import time
 import requests as r
 import regex as re
 import datetime
-import chromedriver_binary
 import json
 import sys
-from pretty_print import *
+from util.pretty_print import *
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-from game_info import get_game_info
+from util.game_info import get_game_info
 
 try:
     from BeautifulSoup import BeautifulSoup

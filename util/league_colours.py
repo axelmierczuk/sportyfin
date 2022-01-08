@@ -36,7 +36,7 @@ class LeagueColours:
                 "SanAntonio Spurs": [(196, 206, 211), (6, 25, 34)],
                 "Toronto Raptors": [(206, 17, 65), (6, 25, 34), (161, 161, 164), (180, 151, 90)],
                 "Utah Jazz": [(0, 43, 92), (0, 71, 27), (249, 160, 27)],
-                "Washington WizardsNavy": [(0, 43, 92), (227, 24, 55), (196, 206, 212)]
+                "Washington Wizards Navy": [(0, 43, 92), (227, 24, 55), (196, 206, 212)]
             },
             NFL: {},
             NHL: {}

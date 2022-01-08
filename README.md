@@ -62,7 +62,7 @@ Start the sportyfin server as follows:
 # -nba specifies finding streams for the NBA
 # -s allows sportyfin to use Selenium to scrape
 # -v enables verbose mode
-# -p specifies the port to run on
+# -p specifies the port to listen on
 # -l specifies the address to listen on
 
 sportyfin start -nba -s -v -l localhost -p 5000

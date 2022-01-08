@@ -1,8 +1,6 @@
-import logging
 import sys
-import pretty_print
-import scraping
-from pretty_print import *
+from util import pretty_print, scraping
+from util.pretty_print import *
 
 
 NBA = "nba"

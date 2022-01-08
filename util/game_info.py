@@ -71,19 +71,20 @@ def concat_images(image_path_list: list[str], output: str, ht_name: str, at_name
 def generate_img(m, sport: str) -> str:
     ht = m['home_team']
     at = m['away_team']
+    output = "../output"
     location = str(hashlib.sha1((ht['name']+at['name']).encode()).hexdigest())
-    if not os.path.isfile(f"output/{sport}/{location}.jpg"):
-        if not os.path.isdir(f"output"):
-            os.makedirs(f"output")
-            os.makedirs(f"output/{sport}")
-        elif not os.path.isdir(f"output/{sport}"):
-            os.makedirs(f"output/{sport}")
-        ht_p = (f"output/{sport}/{str(hashlib.sha1(ht['name'].encode()).hexdigest())}.png", ht['icon_url'])
-        at_p = (f"output/{sport}/{str(hashlib.sha1(at['name'].encode()).hexdigest())}.png", at['icon_url'])
+    if not os.path.isfile(f"{output}/{sport}/{location}.jpg"):
+        if not os.path.isdir(f"{output}"):
+            os.makedirs(f"{output}")
+            os.makedirs(f"{output}/{sport}")
+        elif not os.path.isdir(f"{output}/{sport}"):
+            os.makedirs(f"{output}/{sport}")
+        ht_p = (f"{output}/{sport}/{str(hashlib.sha1(ht['name'].encode()).hexdigest())}.png", ht['icon_url'])
+        at_p = (f"{output}/{sport}/{str(hashlib.sha1(at['name'].encode()).hexdigest())}.png", at['icon_url'])
         list_im = download_jpg([ht_p, at_p])
         if len(list_im) > 1:
             try:
-                concat_images(list_im, f"output/{sport}/{location}.jpg", ht['name'], at['name'], sport)
+                concat_images(list_im, f"{output}/{sport}/{location}.jpg", ht['name'], at['name'], sport)
             except KeyboardInterrupt:
                 sys.exit()
                 pass
@@ -93,7 +94,7 @@ def generate_img(m, sport: str) -> str:
             return list_im[0]
         else:
             return ""
-    return f"output/{sport}/{location}.jpg"
+    return f"{output}/{sport}/{location}.jpg"
 
 
 def generate_team_info(img_tag) -> dict:
