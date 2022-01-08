@@ -25,16 +25,16 @@ def check_verbosity(t: str = otype.DEBUG):
 
 def p(s: str, c: str = "", t: str = otype.DEBUG, err: Exception = None) -> str:
     if check_verbosity(t):
-        print(f"{c}[{t}]{colours.ENDC if t != otype.REGULAR else ''} {s}{colours.ENDC}")
+        print(f"{c}[{t}]{colours.ENDC} {s}")
     if err and verbosity and not no_verbosity:
         print(err.with_traceback())
 
 
 def pind(s: str, c: str = "", t: str = otype.DEBUG) -> str:
     if check_verbosity(t):
-        print(f"{c}---> [{t}]{colours.ENDC if t != otype.REGULAR else ''} {s}{colours.ENDC}")
+        print(f"{c}---> [{t}]{colours.ENDC} {s}")
 
 
 def pind2(s: str, c: str = "", t: str = otype.DEBUG) -> str:
     if check_verbosity(t):
-        print(f"{c}------> [{t}]{colours.ENDC if t != otype.REGULAR else ''} {s}{colours.ENDC}")
+        print(f"{c}------> [{t}]{colours.ENDC} {s}")

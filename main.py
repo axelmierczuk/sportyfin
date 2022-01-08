@@ -64,4 +64,4 @@ if __name__ == "__main__":
         main()
     except Exception as e:
         if pretty_print.verbosity:
-            print(e.with_traceback())
+            p(e.with_traceback())

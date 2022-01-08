@@ -4,6 +4,7 @@ import regex as re
 import datetime
 import json
 import sys
+import chromedriver_binary
 from util.pretty_print import *
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
@@ -49,16 +50,17 @@ def selenium_find(link: str) -> list[str]:
     pind(f"Trying to find m3u8 in network traffic - {link}", colours.OKCYAN, otype.DEBUG)
     res = []
     try:
-        caps = DesiredCapabilities.CHROME
-        caps['goog:loggingPrefs'] = {'performance': 'ALL'}
-        chrome_options = webdriver.ChromeOptions()
-        chrome_options.add_argument('--no-sandbox')
-        chrome_options.add_argument('--headless')
-        chrome_options.add_argument('--disable-dev-shm-usage')
-        prefs = {"download.default_directory": "/tmp/chrome_downloads/",
-                 'profile.default_content_setting_values.automatic_downloads': 1}
-        chrome_options.add_experimental_option("prefs", prefs)
-        driver = webdriver.Chrome(desired_capabilities=caps, options=chrome_options)
+        try:
+
+            caps = DesiredCapabilities.CHROME
+            caps['goog:loggingPrefs'] = {'performance': 'ALL'}
+            chrome_options = webdriver.ChromeOptions()
+            chrome_options.add_argument('--no-sandbox')
+            chrome_options.add_argument('--headless')
+            chrome_options.add_argument('--disable-dev-shm-usage')
+            driver = webdriver.Chrome(desired_capabilities=caps, options=chrome_options)
+        except Exception as e:
+            print(e.with_traceback())
         driver.get(link)
         time.sleep(1)  # wait for all the data to arrive.
         perf = driver.get_log('performance')
@@ -81,6 +83,7 @@ def selenium_find(link: str) -> list[str]:
         sys.exit()
         pass
     except Exception as e:
+        print(e.with_traceback())
         p("Something went wrong with Selenium", colours.FAIL, otype.ERROR, e)
     return list(dict.fromkeys(res))
 
@@ -129,7 +132,8 @@ def bypass_bitly(ll: list[str]) -> list[str]:
             sys.exit()
             pass
         except Exception as e:
-            p("Error occurred bypassing bitly", colours.FAIL, otype.ERROR, e)
+            p(f"Error occurred bypassing bitly - {link}", colours.FAIL, otype.ERROR)
+            pass
     return list(dict.fromkeys(res))
 
 

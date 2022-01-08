@@ -3,8 +3,8 @@ import sys
 from PIL import Image, ImageDraw
 import subprocess
 import hashlib
-import league_colours
-import pretty_print
+import util.league_colours
+import util.pretty_print
 
 NBA = "nba"
 NHL = "nhl"
@@ -23,14 +23,14 @@ def download_jpg(lp: list[(str, str)]) -> list[str]:
                 sys.exit()
                 pass
             except Exception as e:
-                pretty_print.p(f"Error occurred attempting to download - {lpi[1]}", pretty_print.colours.FAIL, pretty_print.otype.ERROR, e)
+                util.pretty_print.p(f"Error occurred attempting to download - {lpi[1]}", util.pretty_print.colours.FAIL, util.pretty_print.otype.ERROR, e)
         else:
             res.append(lpi[0])
     return res
 
 
 def concat_images(image_path_list: list[str], output: str, ht_name: str, at_name: str, league: str):
-    lc = league_colours.LeagueColours(league)
+    lc = util.league_colours.LeagueColours(league)
     images = [Image.open(x).convert("RGBA") for x in image_path_list]
     widths, heights = zip(*(i.size for i in images))
     total_width = int(sum(widths) * 1.5)
@@ -71,7 +71,7 @@ def concat_images(image_path_list: list[str], output: str, ht_name: str, at_name
 def generate_img(m, sport: str) -> str:
     ht = m['home_team']
     at = m['away_team']
-    output = "../output"
+    output = "output"
     location = str(hashlib.sha1((ht['name']+at['name']).encode()).hexdigest())
     if not os.path.isfile(f"{output}/{sport}/{location}.jpg"):
         if not os.path.isdir(f"{output}"):
@@ -89,7 +89,7 @@ def generate_img(m, sport: str) -> str:
                 sys.exit()
                 pass
             except Exception as e:
-                pretty_print.p(f"Error building game icon", pretty_print.colours.FAIL, pretty_print.otype.ERROR, e)
+                util.pretty_print.p(f"Error building game icon", util.pretty_print.colours.FAIL, util.pretty_print.otype.ERROR, e)
         elif len(list_im) == 1:
             return list_im[0]
         else:
@@ -135,4 +135,4 @@ def get_game_info(tag, league):
         sys.exit()
         pass
     except Exception as ex:
-        pretty_print.p("[-] Error getting team information", pretty_print.colours.FAIL, pretty_print.otype.ERROR, ex)
+        util.pretty_print.p("[-] Error getting team information", util.pretty_print.colours.FAIL, util.pretty_print.otype.ERROR, ex)
