@@ -37,17 +37,17 @@ python3 -m sportyfin #arguments
 
 Start the sportyfin server as follows:
 ```bash
-# --nba specifies finding streams for the NBA
-# --s allows sportyfin to use Selenium to scrape
-# --v enables verbose mode
+# -nba specifies finding streams for the NBA
+# -s allows sportyfin to use Selenium to scrape
+# -v enables verbose mode
 
-python3 -m sportyfin --nba --s --v
+python3 -m sportyfin -nba -s -v
 ```
 
 ```bash
-# --vv specifies silent mode (no output will be produced)
-# --a specifies all leagues supported by sportyfin
-python3 -m sportyfin --a --vv
+# -vv specifies silent mode (no output will be produced)
+# -a specifies all leagues supported by sportyfin
+python3 -m sportyfin -a -vv
 ```
 
 ## Documentation

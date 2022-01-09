@@ -108,7 +108,7 @@ class LeagueColours:
             }
         }
 
-    def get_helper(self, tn: str, pos: int) -> tuple[int, int, int]:
+    def get_helper(self, tn: str, pos: int):
         t = self.colours.get(self.league, None).get(tn, None)
         if t:
             for i in range(pos):
@@ -118,7 +118,7 @@ class LeagueColours:
                     pass
         return None
 
-    def get_second(self, n: str) -> tuple[int, int, int]:
+    def get_second(self, n: str):
         t = self.get_helper(n, 2)
         if not t:
             n_s = n.split()
