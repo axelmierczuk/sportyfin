@@ -8,14 +8,17 @@ import chromedriver_binary
 from util.pretty_print import *
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-from util.game_info import get_game_info
+from util.game_info import get_game_info_nba, generate_img
+from dotenv import load_dotenv
+
+load_dotenv()
 
 try:
     from BeautifulSoup import BeautifulSoup
 except ImportError:
     from bs4 import BeautifulSoup
 
-selenium_enabled = False
+selenium_enabled = os.environ.get('selenium')
 NBA = "nba"
 NHL = "nhl"
 NFL = "nfl"
@@ -71,7 +74,9 @@ def selenium_find(link: str) -> list[str]:
                     list_of_dict_values = list(obj.values())
                     for value in list_of_dict_values:
                         if str(value).find("m3u8") > -1 and str(value) not in res:
-                            pind2(f"Found a stream - {str(value)}", colours.OKGREEN, otype.REGULAR)
+                            reqstatus = r.get(value).status_code
+                            if reqstatus == 200:
+                                pind2(f"Found a stream - {str(value)}", colours.OKGREEN, otype.REGULAR)
                             res.append(value)
             except KeyboardInterrupt:
                 sys.exit()
@@ -92,7 +97,18 @@ def html_find(link: str) -> list[str]:
     """
     Looks for possible m3u8 links in html traffic from a streaming site.
     """
-    return []
+    pind(f"Trying to find m3u8 in page content - {link}", colours.OKCYAN, otype.DEBUG)
+    res = []
+    try:
+        content = r.get(link).text
+        for match in re.findall(r"([\'][^\'\"]+(\.m3u8)[^\'\"]*[\'])|([\"][^\'\"]+(\.m3u8)[^\'\"]*[\"])", content):
+            for i in match:
+                if (i.count("\'") == 2 and i.count("\"") == 0) or (i.count("\"") == 2 and i.count("\'") == 0) and ".m3u8" in i and i[1:-1] not in res:
+                    res.append(i[1:-1])
+                    pind2(f"Found a stream - {str(i[1:-1])}", colours.OKGREEN, otype.REGULAR)
+    except Exception as e:
+        pass
+    return res
 
 
 def find_urls(ll: list[str]) -> list[str]:
@@ -105,7 +121,7 @@ def find_urls(ll: list[str]) -> list[str]:
     try:
         for link in ll:
             if selenium_enabled:
-                res = selenium_find(link)
+                res.extend(x for x in selenium_find(link) if x not in res)
             res.extend(x for x in html_find(link) if x not in res)
     except KeyboardInterrupt:
         sys.exit()
@@ -166,14 +182,17 @@ def find_streams(lg: str) -> list[dict]:
         games = []
         parsed_html = BeautifulSoup(r.request("GET", "https://reddit.rnbastreams.com/").text, features="lxml")
         parsed_html = parsed_html.find('ul', attrs={'class': 'competitions'})
-        for tag in parsed_html.find_all('a', attrs={'href': re.compile('/game/.*')}):
+        for tag in parsed_html.find_all('a', attrs={'href': re.compile(f'/game/.*')}):
             try:
-                game_hour = int(tag.find('span', attrs={"class": "competition-cell-status"}).text[:-3]) - datetime.datetime.now().hour < 2
+                game_hour = int(tag.find('span', attrs={"class": "competition-cell-status"}).text[
+                                :-3]) - datetime.datetime.now().hour < 2
             except:
                 game_hour = False
-            if (len(tag.find_all('span', string="Full time ")) == 0 and len(tag.find_all('i', attrs={"class": "icon-clock"})) == 0) or game_hour:
-                match = get_game_info(tag, lg)
-                match['match']['url'] = f"https://sportscentral.io/streams-table/{tag.get('href')[-6:]}/basketball?new-ui=1&origin=reddit.rnbastreams.com"
+            if (len(tag.find_all('span', string="Full time ")) == 0 and len(
+                    tag.find_all('i', attrs={"class": "icon-clock"})) == 0) or game_hour:
+                match = get_game_info_nba(tag, lg)
+                match['match'][
+                    'url'] = f"https://sportscentral.io/streams-table/{tag.get('href')[-6:]}/basketball?new-ui=1&origin=reddit.rnbastreams.com"
                 p(f"Found - {match['match']['name']}", colours.OKGREEN, otype.REGULAR)
                 pind2(f"URL - {match['match']['url']}", colours.OKCYAN, otype.DEBUG)
                 pind2(f"ICON - {match['match']['img_location']}", colours.OKCYAN, otype.DEBUG)
@@ -182,12 +201,45 @@ def find_streams(lg: str) -> list[dict]:
             match['match']['url'] = pull_bitly_link(match['match']['url'])
             if not (len(match['match']['url']) == 0 or match in res):
                 res.append(match)
-    elif lg == NHL:
-        pass
-    elif lg == NFL:
-        pass
+    elif lg == NHL or lg == NFL:
+        if lg == NHL:
+            path = "nhl-tournaments"
+        else:
+            path = "nfl-tournaments-week"
+        games = []
+        date = datetime.datetime.today().strftime('%Y-%m-%d')
+        main_link = f"https://sportscentral.io/api/{path}?date={date}"
+        api_res = json.loads(r.request("GET", main_link).content)[0]['events']
+        for g in api_res:
+            if int(g['startTime'][:-3]) - datetime.datetime.now().hour < 2:
+                ht = g['homeTeam']
+                at = g['awayTeam']
+                match = {
+                    "home_team": {
+                        "name": ht['name'],
+                        "icon_url": ht['logo']
+                    },
+                    "away_team": {
+                        "name": at['name'],
+                        "icon_url": at['logo']
+                    },
+                    "match": {
+                        "name": g['name'],
+                        "img_location": "",
+                        "url": g['eventLink']
+                    }
+                }
+                match['match']['img_location'] = generate_img(match, lg)
+                p(f"Found - {match['match']['name']}", colours.OKGREEN, otype.REGULAR)
+                pind2(f"URL - {match['match']['url']}", colours.OKCYAN, otype.DEBUG)
+                pind2(f"ICON - {match['match']['img_location']}", colours.OKCYAN, otype.DEBUG)
+                games.append(match)
+        for match in games:
+            match['match']['url'] = pull_bitly_link(match['match']['url'])
+            if not (len(match['match']['url']) == 0 or match in res):
+                res.append(match)
     if len(res) == 0:
-        p(f"COULD NOT FIND {lg.upper()} GAMES", colours.FAIL, otype.REGULAR)
+        p(f"COULD NOT FIND {lg.upper()} GAMES", colours.FAIL, otype.ERROR)
     return res
 
 

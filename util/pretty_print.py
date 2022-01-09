@@ -1,5 +1,11 @@
-verbosity = False
-no_verbosity = False
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+verbosity = os.environ.get("verbosity")
+no_verbosity = os.environ.get("no_verbosity")
+
 
 class otype:
     ERROR = '-'
@@ -20,13 +26,15 @@ class colours:
 
 
 def check_verbosity(t: str = otype.DEBUG):
-    return not(t == otype.DEBUG and not verbosity) and not no_verbosity
+    verbosity = os.environ.get("verbosity")
+    no_verbosity = os.environ.get("no_verbosity")
+    return (not(t == otype.DEBUG and verbosity == "1") and no_verbosity == "1") or t == otype.ERROR
 
 
 def p(s: str, c: str = "", t: str = otype.DEBUG, err: Exception = None) -> str:
     if check_verbosity(t):
         print(f"{c}[{t}]{colours.ENDC} {s}")
-    if err and verbosity and not no_verbosity:
+    if err and verbosity == "0" and not no_verbosity == "0":
         print(err.with_traceback())
 
 

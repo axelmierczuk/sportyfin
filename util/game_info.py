@@ -5,6 +5,10 @@ import subprocess
 import hashlib
 import util.league_colours
 import util.pretty_print
+from dotenv import load_dotenv
+
+load_dotenv()
+OUTPUT = os.environ.get("output")
 
 NBA = "nba"
 NHL = "nhl"
@@ -71,7 +75,7 @@ def concat_images(image_path_list: list[str], output: str, ht_name: str, at_name
 def generate_img(m, sport: str) -> str:
     ht = m['home_team']
     at = m['away_team']
-    output = "output"
+    output = OUTPUT
     location = str(hashlib.sha1((ht['name']+at['name']).encode()).hexdigest())
     if not os.path.isfile(f"{output}/{sport}/{location}.jpg"):
         if not os.path.isdir(f"{output}"):
@@ -105,7 +109,6 @@ def generate_team_info(img_tag) -> dict:
                                                                                            '?')])
     }
 
-
 def get_img_from_tag(tag):
     for h in tag:
         if len(h.get("alt")) > 0:
@@ -113,21 +116,22 @@ def get_img_from_tag(tag):
     return None
 
 
-def get_game_info(tag, league):
-
+def get_game_info_nba(tag, league):
     try:
-        home_team_tags = tag.find('span', attrs={'class': "logo home-team competition-cell-table-cell"}).find_all('img')
-        away_team_tags = tag.find('span', attrs={'class': "competition-cell-table-cell competition-cell-side2"}).find_all(
-            'img')
-        h_img = get_img_from_tag(home_team_tags)
-        a_img = get_img_from_tag(away_team_tags)
+        # This works for NHL and NBA
+        if league == NBA:
+            home_team_tags = tag.find('span', attrs={'class': "logo home-team competition-cell-table-cell"}).find_all('img')
+            away_team_tags = tag.find('span', attrs={'class': "competition-cell-table-cell competition-cell-side2"}).find_all(
+                'img')
+            h_img = get_img_from_tag(home_team_tags)
+            a_img = get_img_from_tag(away_team_tags)
 
-        match = {
-            "home_team": generate_team_info(h_img),
-            "away_team": generate_team_info(a_img),
-            "match": {
+            match = {
+                "home_team": generate_team_info(h_img),
+                "away_team": generate_team_info(a_img),
+                "match": {
+                }
             }
-        }
         match['match']['name'] = f"{match['away_team']['name']} at {match['home_team']['name']}"
         match['match']['img_location'] = generate_img(match, league)
         return match
@@ -135,4 +139,4 @@ def get_game_info(tag, league):
         sys.exit()
         pass
     except Exception as ex:
-        util.pretty_print.p("[-] Error getting team information", util.pretty_print.colours.FAIL, util.pretty_print.otype.ERROR, ex)
+        util.pretty_print.p("Error getting team information", util.pretty_print.colours.FAIL, util.pretty_print.otype.ERROR, ex)
