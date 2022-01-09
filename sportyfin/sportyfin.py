@@ -15,6 +15,29 @@ OUTPUT = os.path.join(os.getcwd(), "output")
 os.environ['output'] = OUTPUT
 
 
+def header():
+    print()
+    print()
+    print(f"{colours.OKCYAN + colours.BOLD} ________  ________  ________  ________  _________    ___    ___ ________ ___  ________    ")
+    print(f"{colours.OKCYAN + colours.BOLD}|\   ____\|\   __  \|\   __  \|\   __  \|\___   ___\ |\  \  /  /|\  _____\\  \|\   ___  \    ")
+    print(f"{colours.OKCYAN + colours.BOLD}\ \  \___|\ \  \|\  \ \  \|\  \ \  \|\  \|___ \  \_| \ \  \/  / | \  \__/\ \  \ \  \\ \  \   ")
+    print(f"{colours.OKCYAN + colours.BOLD} \ \_____  \ \   ____\ \  \\\  \ \   _  _\   \ \  \   \ \    / / \ \   __\\ \  \ \  \\ \  \  ")
+    print(f"{colours.OKCYAN + colours.BOLD}  \|____|\  \ \  \___|\ \  \\\  \ \  \\  \|   \ \  \   \/  /  /   \ \  \_| \ \  \ \  \\ \  \ ")
+    print(f"{colours.OKCYAN + colours.BOLD}    ____\_\  \ \__\    \ \_______\ \__\\ _\    \ \__\__/  / /      \ \__\   \ \__\ \__\\ \__\ ")
+    print(f"{colours.OKCYAN + colours.BOLD}   |\_________\|__|     \|_______|\|__|\|__|    \|__|\___/ /        \|__|    \|__|\|__| \|__|")
+    print(f"{colours.OKCYAN + colours.BOLD}   \|_________|                                     \|___|/                                  ")
+    print()
+    print(f"{colours.OKGREEN}    Summary: Stream sports events straight from your Jellyfin server. Sportyfin allows users to scrape for ")
+    print(f"{colours.OKGREEN}             live streamed events and watch straight from Jellyfin. Sportyfin also generates meta-data that ")
+    print(f"{colours.OKGREEN}             is used in Jellyfin to provide a great viewing experience.")
+    print()
+    print(f"{colours.OKGREEN}    Author: Axel Mierczuk")
+    print(f"{colours.OKGREEN}    Version: 0.1.5 (Beta)")
+    print(f"{colours.OKGREEN}    Github: https://github.com/axelmierczuk/sportyfin")
+    print()
+    print()
+
+
 # Main class
 class StreamCollector:
     def __init__(self):
@@ -129,8 +152,9 @@ def run(argv: list):
                 sys.exit()
         if len(leagues) == 0:
             sys.exit()
-        collector = StreamCollector()
+        header()
         while True:
+            collector = StreamCollector()
             collector.collect()
             collector.generate_docs()
             p(f"Waiting {minutes} minutes until next update", colours.WARNING, otype.REGULAR)

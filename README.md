@@ -40,16 +40,30 @@ Start the sportyfin server as follows:
 # -nba specifies finding streams for the NBA
 # -s allows sportyfin to use Selenium to scrape
 # -v enables verbose mode
+# -o enables selecting output location
 
-python3 -m sportyfin -nba -s -v
+python3 -m sportyfin -nba -s -v -o ~/Desktop
 ```
 
 ```bash
 # -vv specifies silent mode (no output will be produced)
 # -a specifies all leagues supported by sportyfin
+
 python3 -m sportyfin -a -vv
 ```
+
+Once you have run the program, make sure to link to the .m3u's in the Jellyfin dashboard:
+
+`Dashboard > Live TV > Tuner Devices (+) > Tuner Type (M3U Tuner) > File or URL (enter path)`
+
+Once the path has been defined, you can check out your streams under:
+
+`Home > Live TV > Channels (at the top)`
 
 ## Documentation
 
 Find all the documentation [here]() (will update link with documentation once it is finished).
+
+## Future Improvement
+
+Add ability to server functionality, aka, ability to access streams (m3u files) from HTTP server.
