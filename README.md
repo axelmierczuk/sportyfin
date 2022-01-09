@@ -7,7 +7,7 @@ m3u files capable of forking other streams. These forks allow you to have access
 Additionally, Sportyfin generates metadata on the livestreams for the best viewing experience.
 
 
-_Currently, Sportyfin supports NBA, NHL and NFL livestreams, but we plan to support other leagues in the future.
+Currently, Sportyfin supports NBA, NHL and NFL livestreams, but we plan to support other leagues in the future.
 
 
 ## Installation
