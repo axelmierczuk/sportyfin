@@ -3,12 +3,11 @@ import sys
 from PIL import Image, ImageDraw
 import subprocess
 import hashlib
-import util.league_colours
-import util.pretty_print
+from . import league_colours, pretty_print
 from dotenv import load_dotenv
 
 load_dotenv()
-OUTPUT = os.environ.get("output")
+OUTPUT = os.environ.get("../output")
 
 NBA = "nba"
 NHL = "nhl"
@@ -27,14 +26,14 @@ def download_jpg(lp: list[(str, str)]) -> list[str]:
                 sys.exit()
                 pass
             except Exception as e:
-                util.pretty_print.p(f"Error occurred attempting to download - {lpi[1]}", util.pretty_print.colours.FAIL, util.pretty_print.otype.ERROR, e)
+                pretty_print.p(f"Error occurred attempting to download - {lpi[1]}", pretty_print.colours.FAIL, pretty_print.otype.ERROR, e)
         else:
             res.append(lpi[0])
     return res
 
 
 def concat_images(image_path_list: list[str], output: str, ht_name: str, at_name: str, league: str):
-    lc = util.league_colours.LeagueColours(league)
+    lc = league_colours.LeagueColours(league)
     images = [Image.open(x).convert("RGBA") for x in image_path_list]
     widths, heights = zip(*(i.size for i in images))
     total_width = int(sum(widths) * 1.5)
@@ -93,7 +92,7 @@ def generate_img(m, sport: str) -> str:
                 sys.exit()
                 pass
             except Exception as e:
-                util.pretty_print.p(f"Error building game icon", util.pretty_print.colours.FAIL, util.pretty_print.otype.ERROR, e)
+                pretty_print.p(f"Error building game icon", pretty_print.colours.FAIL, pretty_print.otype.ERROR, e)
         elif len(list_im) == 1:
             return list_im[0]
         else:
@@ -139,4 +138,4 @@ def get_game_info_nba(tag, league):
         sys.exit()
         pass
     except Exception as ex:
-        util.pretty_print.p("Error getting team information", util.pretty_print.colours.FAIL, util.pretty_print.otype.ERROR, ex)
+        pretty_print.p("Error getting team information", pretty_print.colours.FAIL, pretty_print.otype.ERROR, ex)

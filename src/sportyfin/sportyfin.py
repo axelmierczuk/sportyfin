@@ -1,9 +1,7 @@
 import sys
 import xml.etree.cElementTree as ET
-import os
-from dotenv import load_dotenv
-from util import pretty_print, scraping
 from util.pretty_print import *
+import util.scraping as scraping
 
 load_dotenv()
 
@@ -51,7 +49,7 @@ class StreamCollector:
         tree.write(output_path)
 
     def generate_m3u(self, lg: str):
-        with open(f"output/docs/{lg}.m3u", 'w') as file:
+        with open(f"sportyfin/output/docs/{lg}.m3u", 'w') as file:
             file.write(f"""#EXTM3U x-tvg-url="{OUTPUT}/docs/{lg}.xml"\n""")
             for match in self.streaming_sites[lg]:
                 for url in match['match']['m3u8_urls']:
@@ -73,50 +71,55 @@ def main() -> list[str]:
 
 
 if __name__ == "__main__":
-    leagues = []
-    OUTPUT = ""
-    try:
-        if "--v" in sys.argv:
-            os.environ["verbosity"] = "0"
-        else:
-            os.environ["verbosity"] = "1"
-        if "--vv" in sys.argv:
-            os.environ["no_verbosity"] = "0"
-        else:
-            os.environ["no_verbosity"] = "1"
-        if "--s" in sys.argv:
-            os.environ["selenium"] = "0"
-        else:
-            os.environ["selenium"] = "1"
-        if "--nba" in sys.argv:
-            leagues.append(NBA)
-        if "--nhl" in sys.argv:
-            leagues.append(NHL)
-        if "--nfl" in sys.argv:
-            leagues.append(NFL)
-        if "--a" in sys.argv and len(leagues) == 0:
-            leagues.append(NBA)
-            leagues.append(NHL)
-            leagues.append(NFL)
-        elif "--a" in sys.argv and len(leagues) != 0:
-            p("Cannot pass --a with --nba/--nfl/--nhl", colours.FAIL, otype.ERROR)
-            sys.exit()
-        if "--output" in sys.argv:
-            try:
-                if sys.argv.index("-o") + 1 >= len(sys.argv):
-                    raise Exception("Missing output location")
-                OUTPUT = sys.argv[sys.argv.index("-o") + 1]
-                if OUTPUT.startswith("-"):
-                    raise Exception("Missing output location")
-                os.environ['output'] = OUTPUT
-            except Exception as e:
-                p(e, colours.FAIL, otype.ERROR)
+    if "start" in sys.argv:
+        leagues = []
+        OUTPUT = ""
+        try:
+            if "--v" in sys.argv:
+                os.environ["verbosity"] = "0"
+            else:
+                os.environ["verbosity"] = "1"
+            if "--vv" in sys.argv:
+                os.environ["no_verbosity"] = "0"
+            else:
+                os.environ["no_verbosity"] = "1"
+            if "--s" in sys.argv:
+                os.environ["selenium"] = "0"
+            else:
+                os.environ["selenium"] = "1"
+            if "--nba" in sys.argv:
+                leagues.append(NBA)
+            if "--nhl" in sys.argv:
+                leagues.append(NHL)
+            if "--nfl" in sys.argv:
+                leagues.append(NFL)
+            if "--a" in sys.argv and len(leagues) == 0:
+                leagues.append(NBA)
+                leagues.append(NHL)
+                leagues.append(NFL)
+            elif "--a" in sys.argv and len(leagues) != 0:
+                p("Cannot pass --a with --nba/--nfl/--nhl", colours.FAIL, otype.ERROR)
                 sys.exit()
-        if OUTPUT == "":
-            OUTPUT = "output"
-            os.environ['output'] = OUTPUT
-        if len(leagues) == 0:
-            sys.exit()
-        main()
-    except Exception as e:
-        p(e, colours.FAIL, otype.ERROR, e)
+            if "--output" in sys.argv:
+                try:
+                    if sys.argv.index("-o") + 1 >= len(sys.argv):
+                        raise Exception("Missing output location")
+                    OUTPUT = sys.argv[sys.argv.index("-o") + 1]
+                    if OUTPUT.startswith("-"):
+                        raise Exception("Missing output location")
+                    os.environ['output'] = OUTPUT
+                except Exception as e:
+                    p(e, colours.FAIL, otype.ERROR)
+                    sys.exit()
+            if OUTPUT == "":
+                OUTPUT = "src/sportyfin/output"
+                os.environ['output'] = OUTPUT
+            if len(leagues) == 0:
+                sys.exit()
+            main()
+        except Exception as e:
+            p(e, colours.FAIL, otype.ERROR, e)
+    elif "stop" in sys.argv:
+        pass
+    elif "uninstall" in sys.argv:
+        pass

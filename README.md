@@ -7,7 +7,7 @@ m3u files capable of forking other streams. These forks allow you to have access
 Additionally, Sportyfin generates metadata on the livestreams for the best viewing experience.
 
 
-_Currently, Sportyfin supports NBA livestreams, but we plan to support other leagues such as the NFL and NHL._
+_Currently, Sportyfin supports NBA, NHL and NFL livestreams, but we plan to support other leagues in the future.
 
 
 ## Installation
@@ -24,7 +24,8 @@ Once you have cloned the repo, run the installation script:
 
 ```bash
 cd sportyfin
-sudo ./install.py
+sudo chmod +x install.sh
+sudo ./install.sh
 ```
 
 During the installation, you will be prompted to configure some settings:
@@ -38,11 +39,10 @@ installation was successfully, you should be able to see the links to the .m3u i
 
 `Dashboard > Live TV > Tuner Devices`
 
-To uninstall the program, simply run the _uninstall.py_ file in the cloned repo:
+To uninstall the program, simply run the `sportyfin uninstall`:
 
 ```bash
-cd sportyfin
-sudo ./uninstall.py
+sportyfin uninstall
 ```
 
 
@@ -59,21 +59,20 @@ sportyfin -h
 
 Start the sportyfin server as follows:
 ```bash
-# -nba specifies finding streams for the NBA
-# -s allows sportyfin to use Selenium to scrape
-# -v enables verbose mode
-# -p specifies the port to listen on
-# -l specifies the address to listen on
+# --nba specifies finding streams for the NBA
+# --s allows sportyfin to use Selenium to scrape
+# --v enables verbose mode
 
-sportyfin start -nba -s -v -l localhost -p 5000
+sportyfin start --nba --s --v
 ```
 
 ```bash
-# -vv specifies silent mode (no output will be produced)
-sportyfin start -nba -vv
+# --vv specifies silent mode (no output will be produced)
+# --a specifies all leagues supported by sportyfin
+sportyfin start --a --vv
 ```
 
-Stop the Sportyfin server by issuing the following command:
+Stop the Sportyfin by issuing the following command:
 
 ```bash
 sportyfin stop 

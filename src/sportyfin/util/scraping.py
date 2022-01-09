@@ -4,12 +4,12 @@ import regex as re
 import datetime
 import json
 import sys
-import chromedriver_binary
-from util.pretty_print import *
+from . import game_info
+from .pretty_print import *
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-from util.game_info import get_game_info_nba, generate_img
 from dotenv import load_dotenv
+import os
 
 load_dotenv()
 
@@ -190,7 +190,7 @@ def find_streams(lg: str) -> list[dict]:
                 game_hour = False
             if (len(tag.find_all('span', string="Full time ")) == 0 and len(
                     tag.find_all('i', attrs={"class": "icon-clock"})) == 0) or game_hour:
-                match = get_game_info_nba(tag, lg)
+                match = game_info.get_game_info_nba(tag, lg)
                 match['match'][
                     'url'] = f"https://sportscentral.io/streams-table/{tag.get('href')[-6:]}/basketball?new-ui=1&origin=reddit.rnbastreams.com"
                 p(f"Found - {match['match']['name']}", colours.OKGREEN, otype.REGULAR)
@@ -229,7 +229,7 @@ def find_streams(lg: str) -> list[dict]:
                         "url": g['eventLink']
                     }
                 }
-                match['match']['img_location'] = generate_img(match, lg)
+                match['match']['img_location'] = game_info.generate_img(match, lg)
                 p(f"Found - {match['match']['name']}", colours.OKGREEN, otype.REGULAR)
                 pind2(f"URL - {match['match']['url']}", colours.OKCYAN, otype.DEBUG)
                 pind2(f"ICON - {match['match']['img_location']}", colours.OKCYAN, otype.DEBUG)
