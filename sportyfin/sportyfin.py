@@ -11,7 +11,7 @@ NBA = "nba"
 NHL = "nhl"
 NFL = "nfl"
 leagues = []
-OUTPUT = "output"
+OUTPUT = os.path.join(os.getcwd(), "output")
 os.environ['output'] = OUTPUT
 
 
@@ -26,6 +26,7 @@ class StreamCollector:
         self.leagues: list = leagues
 
     def collect(self) -> None:
+
         for lg in self.leagues:
             p(f"COLLECTING {lg.upper()} .M3U8 LINKS", colours.HEADER, otype.REGULAR)
             res = 0
@@ -44,21 +45,21 @@ class StreamCollector:
                 ET.SubElement(doc, "display-name").text = match['match']['name']
                 ET.SubElement(doc, "icon").text = f"{OUTPUT}/{lg}/{match['match']['img_location'].split('/')[-1]}"
         tree = ET.ElementTree(root)
-        outp = f"{OUTPUT}/docs"
+        outp = os.path.join(OUTPUT, f"docs")
         if not os.path.isdir(f"{OUTPUT}"):
             os.makedirs(f"{OUTPUT}")
             os.makedirs(f"{outp}")
         elif not os.path.isdir(f"{outp}"):
             os.makedirs(f"{outp}")
-        output_path = f"{outp}/{lg}.xml"
+        output_path = os.path.join(outp, f"{lg}.xml")
         tree.write(output_path)
 
     def generate_m3u(self, lg: str):
-        with open(f"{OUTPUT}/docs/{lg}.m3u", 'w') as file:
-            file.write(f"""#EXTM3U x-tvg-url="{OUTPUT}/docs/{lg}.xml"\n""")
+        with open(os.path.join(*[OUTPUT, "docs", f"{lg}.m3u"])) as file:
+            file.write(f"""#EXTM3U x-tvg-url="{os.path.join(*[OUTPUT, "docs", f"{lg}.m3u"])}"\n""")
             for match in self.streaming_sites[lg]:
                 for url in match['match']['m3u8_urls']:
-                    file.write(f"""#EXTINF:-1 tvg-id="{url}" tvg-country="USA" tvg-language="English" tvg-logo="{OUTPUT}/{lg}/{match['match']['img_location'].split('/')[-1]}" group-title="{lg}",{match['match']['name']}\n""")
+                    file.write(f"""#EXTINF:-1 tvg-id="{url}" tvg-country="USA" tvg-language="English" tvg-logo="{os.path.join(*[OUTPUT, lg, match['match']['img_location'].split('/')[-1]])}" group-title="{lg}",{match['match']['name']}\n""")
                     file.write(f"""{url}\n""")
 
     def generate_docs(self):
@@ -70,7 +71,7 @@ class StreamCollector:
 
 
 def run(argv: list):
-    OUTPUT = "output"
+    global OUTPUT
     minutes = 30
     try:
         if "-v" in argv:
@@ -103,7 +104,7 @@ def run(argv: list):
                 if argv.index("-o") + 1 >= len(argv):
                     raise Exception("Missing time input (in minutes)")
                 minutes = argv[argv.index("-t") + 1]
-                if OUTPUT.startswith("-"):
+                if minutes.startswith("-"):
                     raise Exception("Missing time input (in minutes)")
             except Exception as e:
                 p(e, colours.FAIL, otype.ERROR)
@@ -111,7 +112,15 @@ def run(argv: list):
             try:
                 if argv.index("-o") + 1 >= len(argv):
                     raise Exception("Missing output location")
-                OUTPUT = argv[argv.index("-o") + 1]
+                dp = str(argv[argv.index("-o") + 1])
+                if not dp.endswith('/'):
+                    if dp.startswith('.'):
+                        d = dp[2:]
+                        OUTPUT = os.path.join(*[os.getcwd(), d, "output"])
+                    if not dp.startswith('/'):
+                        OUTPUT = os.path.join(*[os.getcwd(), dp, "output"])
+                    else:
+                        OUTPUT = os.path.join(dp, "output")
                 if OUTPUT.startswith("-"):
                     raise Exception("Missing output location")
                 os.environ['output'] = OUTPUT
@@ -119,8 +128,7 @@ def run(argv: list):
                 p(e, colours.FAIL, otype.ERROR)
                 sys.exit()
         if len(leagues) == 0:
-            pass
-            #sys.exit()
+            sys.exit()
         collector = StreamCollector()
         while True:
             collector.collect()

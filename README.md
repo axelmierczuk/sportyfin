@@ -15,7 +15,7 @@ To install Sportyfin with your running instance of Jellyfin, follow the steps be
 
 
 ```bash
-pip install sportyfin
+pip install sportyfin --no-binary=sportypy
 ```
 
 To uninstall the program:
