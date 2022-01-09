@@ -172,7 +172,7 @@ def pull_bitly_link(link) -> list:
     return res
 
 
-def find_streams(lg: str) -> list[dict]:
+def find_streams(lg: str) -> list:
     """
     Finds current games that are active for a given league.
     """

@@ -13,7 +13,7 @@ NHL = "nhl"
 NFL = "nfl"
 
 
-def download_jpg(lp: list[(str, str)]) -> list:
+def download_jpg(lp: list) -> list:
     res = []
     for lpi in lp:
         if not os.path.isfile(lpi[0]):
