@@ -112,7 +112,7 @@ if __name__ == "__main__":
                     p(e, colours.FAIL, otype.ERROR)
                     sys.exit()
             if OUTPUT == "":
-                OUTPUT = "output"
+                OUTPUT = "src/sportyfin/output"
                 os.environ['output'] = OUTPUT
             if len(leagues) == 0:
                 sys.exit()
