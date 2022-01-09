@@ -2,6 +2,7 @@ import sys
 import xml.etree.cElementTree as ET
 from util.pretty_print import *
 import util.scraping as scraping
+from dotenv import load_dotenv
 
 load_dotenv()
 
