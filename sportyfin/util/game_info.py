@@ -18,7 +18,7 @@ def download_jpg(lp: list) -> list:
     for lpi in lp:
         if not os.path.isfile(lpi[0]):
             try:
-                print(f"[*] Downloading {lpi[1]} to {lpi[0]}")
+                pretty_print.pind(f"Downloading {lpi[1]} to {lpi[0]}", pretty_print.colours.OKCYAN, pretty_print.otype.DEBUG)
                 r = requests.get(lpi[1], allow_redirects=True)
                 open(lpi[0], 'wb').write(r.content)
                 res.append(lpi[0])

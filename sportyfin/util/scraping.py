@@ -74,7 +74,7 @@ def selenium_find(link: str) -> list:
                     list_of_dict_values = list(obj.values())
                     for value in list_of_dict_values:
                         if str(value).find("m3u8") > -1 and str(value) not in res:
-                            reqstatus = r.get(value).status_code
+                            reqstatus = r.get(value, allow_redirects=True).status_code
                             if reqstatus == 200:
                                 pind2(f"Found a stream - {str(value)}", colours.OKGREEN, otype.REGULAR)
                             res.append(value)

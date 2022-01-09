@@ -32,7 +32,7 @@ def header():
     print(f"{colours.OKGREEN}             is used in Jellyfin to provide a great viewing experience.")
     print()
     print(f"{colours.OKGREEN}    Author: Axel Mierczuk")
-    print(f"{colours.OKGREEN}    Version: 0.1.5 (Beta)")
+    print(f"{colours.OKGREEN}    Version: 0.1.6 (Beta)")
     print(f"{colours.OKGREEN}    Github: https://github.com/axelmierczuk/sportyfin")
     print()
     print()
@@ -78,7 +78,7 @@ class StreamCollector:
         tree.write(output_path)
 
     def generate_m3u(self, lg: str):
-        with open(os.path.join(*[OUTPUT, "docs", f"{lg}.m3u"])) as file:
+        with open(os.path.join(*[OUTPUT, "docs", f"{lg}.m3u"]), 'w') as file:
             file.write(f"""#EXTM3U x-tvg-url="{os.path.join(*[OUTPUT, "docs", f"{lg}.m3u"])}"\n""")
             for match in self.streaming_sites[lg]:
                 for url in match['match']['m3u8_urls']:
