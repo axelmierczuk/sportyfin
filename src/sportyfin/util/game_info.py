@@ -7,7 +7,6 @@ from . import league_colours, pretty_print
 from dotenv import load_dotenv
 
 load_dotenv()
-OUTPUT = os.environ.get("output")
 
 NBA = "nba"
 NHL = "nhl"
@@ -74,7 +73,7 @@ def concat_images(image_path_list: list[str], output: str, ht_name: str, at_name
 def generate_img(m, sport: str) -> str:
     ht = m['home_team']
     at = m['away_team']
-    output = OUTPUT
+    output = os.environ.get("output")
     location = str(hashlib.sha1((ht['name']+at['name']).encode()).hexdigest())
     if not os.path.isfile(f"{output}/{sport}/{location}.jpg"):
         if not os.path.isdir(f"{output}"):

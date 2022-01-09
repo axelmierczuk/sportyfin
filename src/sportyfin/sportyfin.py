@@ -100,7 +100,7 @@ if __name__ == "__main__":
             elif "--a" in sys.argv and len(leagues) != 0:
                 p("Cannot pass --a with --nba/--nfl/--nhl", colours.FAIL, otype.ERROR)
                 sys.exit()
-            if "--output" in sys.argv:
+            if "-o" in sys.argv:
                 try:
                     if sys.argv.index("-o") + 1 >= len(sys.argv):
                         raise Exception("Missing output location")
