@@ -43,10 +43,10 @@ setup(
         "ruamel_yaml"
     ],
     classifiers=[
-        'Development Status :: Beta',
-        'Intended Audience :: Streaming / Movies',
+        'Development Status :: 4 - Beta',
+        'Intended Audience :: Telecommunications Industry',
         'License :: OSI Approved :: MIT License',
-        'Operating System :: POSIX :: Linux',
+        'Programming Language :: Python',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
