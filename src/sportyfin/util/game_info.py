@@ -7,7 +7,7 @@ from . import league_colours, pretty_print
 from dotenv import load_dotenv
 
 load_dotenv()
-OUTPUT = os.environ.get("../output")
+OUTPUT = os.environ.get("output")
 
 NBA = "nba"
 NHL = "nhl"
