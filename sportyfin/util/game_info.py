@@ -13,7 +13,7 @@ NHL = "nhl"
 NFL = "nfl"
 
 
-def download_jpg(lp: list[(str, str)]) -> list[str]:
+def download_jpg(lp: list[(str, str)]) -> list:
     res = []
     for lpi in lp:
         if not os.path.isfile(lpi[0]):
@@ -32,7 +32,7 @@ def download_jpg(lp: list[(str, str)]) -> list[str]:
     return res
 
 
-def concat_images(image_path_list: list[str], output: str, ht_name: str, at_name: str, league: str):
+def concat_images(image_path_list: list, output: str, ht_name: str, at_name: str, league: str):
     lc = league_colours.LeagueColours(league)
     images = [Image.open(x).convert("RGBA") for x in image_path_list]
     widths, heights = zip(*(i.size for i in images))

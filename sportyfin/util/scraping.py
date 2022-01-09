@@ -46,7 +46,7 @@ def flatten_json(y: dict) -> dict:
 
 
 # Helper Functions
-def selenium_find(link: str) -> list[str]:
+def selenium_find(link: str) -> list:
     """
     Looks for possible m3u8 links in network traffic from a streaming site.
     """
@@ -93,7 +93,7 @@ def selenium_find(link: str) -> list[str]:
     return list(dict.fromkeys(res))
 
 
-def html_find(link: str) -> list[str]:
+def html_find(link: str) -> list:
     """
     Looks for possible m3u8 links in html traffic from a streaming site.
     """
@@ -111,7 +111,7 @@ def html_find(link: str) -> list[str]:
     return res
 
 
-def find_urls(ll: list[str]) -> list[str]:
+def find_urls(ll: list) -> list:
     """
     Helper function used to scrape html and network traffic from a provided link.
     """
@@ -133,7 +133,7 @@ def find_urls(ll: list[str]) -> list[str]:
     return list(dict.fromkeys(res))
 
 
-def bypass_bitly(ll: list[str]) -> list[str]:
+def bypass_bitly(ll: list) -> list:
     """
     Ability to bypass bitly pages to get streaming site url.
     """
@@ -153,7 +153,7 @@ def bypass_bitly(ll: list[str]) -> list[str]:
     return list(dict.fromkeys(res))
 
 
-def pull_bitly_link(link) -> list[str]:
+def pull_bitly_link(link) -> list:
     """
     Pull bitly link from main streaming site.
     """
@@ -243,5 +243,5 @@ def find_streams(lg: str) -> list[dict]:
     return res
 
 
-def get_streams(s: list[str]) -> list[str]:
+def get_streams(s: list) -> list:
     return find_urls(bypass_bitly(s))

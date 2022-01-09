@@ -23,7 +23,7 @@ class StreamCollector:
             NHL: scraping.find_streams(NHL) if NHL in leagues else [],
             NFL: scraping.find_streams(NFL) if NFL in leagues else []
         }
-        self.leagues: list[str] = leagues
+        self.leagues: list = leagues
 
     def collect(self) -> None:
         for lg in self.leagues:
@@ -69,7 +69,7 @@ class StreamCollector:
             self.generate_m3u(lg)
 
 
-def run(argv: list[str]):
+def run(argv: list):
     OUTPUT = "output"
     minutes = 30
     try:
