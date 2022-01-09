@@ -1,7 +1,8 @@
 import sys
+import time
 import xml.etree.cElementTree as ET
-from util.pretty_print import *
-import util.scraping as scraping
+from .util.pretty_print import *
+from .util import scraping
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -9,6 +10,9 @@ load_dotenv()
 NBA = "nba"
 NHL = "nhl"
 NFL = "nfl"
+leagues = []
+OUTPUT = "output"
+os.environ['output'] = OUTPUT
 
 
 # Main class
@@ -65,62 +69,63 @@ class StreamCollector:
             self.generate_m3u(lg)
 
 
-def main() -> list[str]:
-    collector = StreamCollector()
-    collector.collect()
-    collector.generate_docs()
-
-
-if __name__ == "__main__":
-    if "start" in sys.argv:
-        leagues = []
-        OUTPUT = ""
-        try:
-            if "--v" in sys.argv:
-                os.environ["verbosity"] = "0"
-            else:
-                os.environ["verbosity"] = "1"
-            if "--vv" in sys.argv:
-                os.environ["no_verbosity"] = "0"
-            else:
-                os.environ["no_verbosity"] = "1"
-            if "--s" in sys.argv:
-                os.environ["selenium"] = "0"
-            else:
-                os.environ["selenium"] = "1"
-            if "--nba" in sys.argv:
-                leagues.append(NBA)
-            if "--nhl" in sys.argv:
-                leagues.append(NHL)
-            if "--nfl" in sys.argv:
-                leagues.append(NFL)
-            if "--a" in sys.argv and len(leagues) == 0:
-                leagues.append(NBA)
-                leagues.append(NHL)
-                leagues.append(NFL)
-            elif "--a" in sys.argv and len(leagues) != 0:
-                p("Cannot pass --a with --nba/--nfl/--nhl", colours.FAIL, otype.ERROR)
-                sys.exit()
-            if "-o" in sys.argv:
-                try:
-                    if sys.argv.index("-o") + 1 >= len(sys.argv):
-                        raise Exception("Missing output location")
-                    OUTPUT = sys.argv[sys.argv.index("-o") + 1]
-                    if OUTPUT.startswith("-"):
-                        raise Exception("Missing output location")
-                    os.environ['output'] = OUTPUT
-                except Exception as e:
-                    p(e, colours.FAIL, otype.ERROR)
-                    sys.exit()
-            if OUTPUT == "":
-                OUTPUT = "output"
+def run(argv: list[str]):
+    OUTPUT = "output"
+    minutes = 30
+    try:
+        if "-v" in argv:
+            os.environ["verbosity"] = "0"
+        else:
+            os.environ["verbosity"] = "1"
+        if "-vv" in argv:
+            os.environ["no_verbosity"] = "0"
+        else:
+            os.environ["no_verbosity"] = "1"
+        if "-s" in argv:
+            os.environ["selenium"] = "0"
+        else:
+            os.environ["selenium"] = "1"
+        if "-nba" in argv:
+            leagues.append(NBA)
+        if "-nhl" in argv:
+            leagues.append(NHL)
+        if "-nfl" in argv:
+            leagues.append(NFL)
+        if "-a" in argv and len(leagues) == 0:
+            leagues.append(NBA)
+            leagues.append(NHL)
+            leagues.append(NFL)
+        elif "-a" in argv and len(leagues) != 0:
+            p("Cannot pass --a with --nba/--nfl/--nhl", colours.FAIL, otype.ERROR)
+            sys.exit()
+        if "-t" in argv:
+            try:
+                if argv.index("-o") + 1 >= len(argv):
+                    raise Exception("Missing time input (in minutes)")
+                minutes = argv[argv.index("-t") + 1]
+                if OUTPUT.startswith("-"):
+                    raise Exception("Missing time input (in minutes)")
+            except Exception as e:
+                p(e, colours.FAIL, otype.ERROR)
+        if "-o" in argv:
+            try:
+                if argv.index("-o") + 1 >= len(argv):
+                    raise Exception("Missing output location")
+                OUTPUT = argv[argv.index("-o") + 1]
+                if OUTPUT.startswith("-"):
+                    raise Exception("Missing output location")
                 os.environ['output'] = OUTPUT
-            if len(leagues) == 0:
+            except Exception as e:
+                p(e, colours.FAIL, otype.ERROR)
                 sys.exit()
-            main()
-        except Exception as e:
-            p(e, colours.FAIL, otype.ERROR, e)
-    elif "stop" in sys.argv:
-        pass
-    elif "uninstall" in sys.argv:
-        pass
+        if len(leagues) == 0:
+            pass
+            #sys.exit()
+        collector = StreamCollector()
+        while True:
+            collector.collect()
+            collector.generate_docs()
+            p(f"Waiting {minutes} minutes until next update", colours.WARNING, otype.REGULAR)
+            time.sleep(minutes * 60)
+    except Exception as e:
+        p(e, colours.FAIL, otype.ERROR, e)

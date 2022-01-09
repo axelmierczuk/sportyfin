@@ -5,7 +5,7 @@ import subprocess
 import hashlib
 from . import league_colours, pretty_print
 from dotenv import load_dotenv
-
+import requests
 load_dotenv()
 
 NBA = "nba"
@@ -19,7 +19,8 @@ def download_jpg(lp: list[(str, str)]) -> list[str]:
         if not os.path.isfile(lpi[0]):
             try:
                 print(f"[*] Downloading {lpi[1]} to {lpi[0]}")
-                subprocess.run(["wget", lpi[1], "-O", lpi[0]], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+                r = requests.get(lpi[1], allow_redirects=True)
+                open(lpi[0], 'wb').write(r.content)
                 res.append(lpi[0])
             except KeyboardInterrupt:
                 sys.exit()
@@ -130,7 +131,7 @@ def get_game_info_nba(tag, league):
                 "match": {
                 }
             }
-        match['match']['name'] = f"{match['away_team']['name']} at {match['home_team']['name']}"
+        match['match']['name'] = f"{match['away_team']['name']} vs {match['home_team']['name']}"
         match['match']['img_location'] = generate_img(match, league)
         return match
     except KeyboardInterrupt:
