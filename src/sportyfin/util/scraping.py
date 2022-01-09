@@ -18,7 +18,6 @@ try:
 except ImportError:
     from bs4 import BeautifulSoup
 
-selenium_enabled = os.environ.get('selenium')
 NBA = "nba"
 NHL = "nhl"
 NFL = "nfl"
@@ -120,7 +119,7 @@ def find_urls(ll: list[str]) -> list[str]:
         return res
     try:
         for link in ll:
-            if selenium_enabled:
+            if os.environ.get('selenium') == "0":
                 res.extend(x for x in selenium_find(link) if x not in res)
             res.extend(x for x in html_find(link) if x not in res)
     except KeyboardInterrupt:
