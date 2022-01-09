@@ -49,7 +49,7 @@ class StreamCollector:
         tree.write(output_path)
 
     def generate_m3u(self, lg: str):
-        with open(f"sportyfin/output/docs/{lg}.m3u", 'w') as file:
+        with open(f"{OUTPUT}/docs/{lg}.m3u", 'w') as file:
             file.write(f"""#EXTM3U x-tvg-url="{OUTPUT}/docs/{lg}.xml"\n""")
             for match in self.streaming_sites[lg]:
                 for url in match['match']['m3u8_urls']:
@@ -112,7 +112,7 @@ if __name__ == "__main__":
                     p(e, colours.FAIL, otype.ERROR)
                     sys.exit()
             if OUTPUT == "":
-                OUTPUT = "src/sportyfin/output"
+                OUTPUT = "output"
                 os.environ['output'] = OUTPUT
             if len(leagues) == 0:
                 sys.exit()

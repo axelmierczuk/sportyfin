@@ -129,5 +129,5 @@ dmypy.json
 .pyre/
 
 .idea/
-
+output/
 src/sportyfin/output/
