@@ -66,4 +66,4 @@ Find all the documentation [here]() (will update link with documentation once it
 
 ## Future Improvement
 
-Add ability to server functionality, aka, ability to access streams (m3u files) from HTTP server.
+Add server functionality, aka, ability to access streams (m3u files) from HTTP server.
