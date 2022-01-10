@@ -32,7 +32,7 @@ We highly recommend running Sportyfin in combination with [tmux](https://man7.or
 Example usage:
 
 ```bash
-python3 -m sportyfin #arguments
+python3 -m sportyfin <arguments>
 ```
 
 Start the sportyfin server as follows:
