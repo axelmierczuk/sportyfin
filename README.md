@@ -32,7 +32,7 @@ We highly recommend running Sportyfin in combination with [tmux](https://man7.or
 Example usage:
 
 ```bash
-python3 -m sportyfin -url "SomeURL" #arguments
+python3 -m sportyfin #arguments
 ```
 
 Start the sportyfin server as follows:
@@ -42,14 +42,14 @@ Start the sportyfin server as follows:
 # -v enables verbose mode
 # -o enables selecting output location
 
-python3 -m sportyfin -nba -s -v -o ~/Desktop -url "SomeURL"
+python3 -m sportyfin -nba -s -v -o ~/Desktop
 ```
 
 ```bash
 # -vv specifies silent mode (no output will be produced)
 # -a specifies all leagues supported by sportyfin
 
-python3 -m sportyfin -a -vv -url "SomeURL"
+python3 -m sportyfin -a -vv
 ```
 
 Once you have run the program, make sure to link to the .m3u's in the Jellyfin dashboard:
@@ -63,12 +63,6 @@ Once the path has been defined, you can check out your streams under:
 ## Documentation
 
 Find all the documentation [here](https://sportyfin-doc.readthedocs.io/en/latest/index.html).
-
-
-## Update
-
-As of 0.1.13, you now **need** to provide your own url to scrape since this is not a tool that should be used for piracy. Try: https://sportscentral.io for example.
-
 
 ## Future Improvement
 

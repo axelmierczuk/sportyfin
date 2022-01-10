@@ -33,7 +33,7 @@ def header():
     print(f"{colours.OKGREEN}             is used in Jellyfin to provide a great viewing experience.")
     print()
     print(f"{colours.OKGREEN}    Author: Axel Mierczuk")
-    print(f"{colours.OKGREEN}    Version: 0.1.13 (Beta)")
+    print(f"{colours.OKGREEN}    Version: 0.1.14 (Beta)")
     print(f"{colours.OKGREEN}    Github: https://github.com/axelmierczuk/sportyfin")
     print()
     print()
@@ -99,12 +99,7 @@ def run(argv: list):
     global OUTPUT
     minutes = 30
     try:
-        if "-url" in argv:
-            try:
-                stream_link = argv[argv.index("-url") + 1]
-                os.environ['stream_link'] = stream_link
-            except:
-                raise Exception("Missing url (-url).")
+        os.environ['stream_link'] = "https://sportscentral.io"
         if "-v" in argv:
             os.environ["verbosity"] = "0"
         else:
