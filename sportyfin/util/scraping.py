@@ -204,14 +204,18 @@ def find_streams(lg: str) -> list:
     elif lg == NHL or lg == NFL:
         if lg == NHL:
             path = "nhl-tournaments"
+            host1 = "https://sportscentral.io/streams-table/"
+            host2 = "/ice-hockey?new-ui=1&origin=live.redditnhlstreams.com"
         else:
             path = "nfl-tournaments-week"
+            host1 = "https://sportscentral.io/streams-table/"
+            host2 = "/american-football?new-ui=1&origin=official.nflstreams.to"
         games = []
         date = datetime.datetime.today().strftime('%Y-%m-%d')
         main_link = f"https://sportscentral.io/api/{path}?date={date}"
         api_res = json.loads(r.request("GET", main_link).content)[0]['events']
         for g in api_res:
-            if int(g['startTime'][:-3]) - datetime.datetime.now().hour < 2:
+            if int(g['startTime'][:-3]) - datetime.datetime.now().hour < 2 or g['status']['type'] == 'inprogress':
                 ht = g['homeTeam']
                 at = g['awayTeam']
                 match = {
@@ -226,7 +230,7 @@ def find_streams(lg: str) -> list:
                     "match": {
                         "name": g['name'],
                         "img_location": "",
-                        "url": g['eventLink']
+                        "url": f"{host1}{str(g['eventLink']).split('/')[-1]}{host2}"
                     }
                 }
                 match['match']['img_location'] = game_info.generate_img(match, lg)
