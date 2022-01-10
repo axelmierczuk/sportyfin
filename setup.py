@@ -6,7 +6,7 @@ setup(
     author='Axel Mierczuk',
     author_email='axelmierczuk@gmail.com',
     packages=['sportyfin', 'sportyfin.util'],
-    scripts=[],
+    include_package_data=True,
     url='http://pypi.python.org/pypi/sportyfin/',
     license='LICENSE.txt',
     description='Scrapes popular streaming sites and compiles m3u/xml files for viewing.',
