@@ -64,6 +64,12 @@ Once the path has been defined, you can check out your streams under:
 
 Find all the documentation [here](https://sportyfin-doc.readthedocs.io/en/latest/index.html).
 
+
+## Update
+
+You now need to provide a link to scrape since this is not a tool that should be used for piracy. Try: https://sportscentral.io for example.
+
+
 ## Future Improvement
 
 Add server functionality, aka, ability to access streams (m3u files) from HTTP server.
