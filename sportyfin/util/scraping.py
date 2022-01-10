@@ -178,6 +178,10 @@ def make_match(api_res, hosts, lg) -> list:
     for g in api_res:
         ht = g['homeTeam']
         at = g['awayTeam']
+        if lg == EF:
+            host_id = str(g['eventLink'].split('/')[-1]).split("?")[0]
+        else:
+            host_id = str(g['eventLink']).split('/')[-1]
         match = {
             "home_team": {
                 "name": ht['name'],
@@ -190,7 +194,7 @@ def make_match(api_res, hosts, lg) -> list:
             "match": {
                 "name": g.get('name', ''),
                 "img_location": "",
-                "url": f"{hosts[0]}{str(g['eventLink']).split('/')[-1]}{hosts[1]}"
+                "url": f"{hosts[0]}{host_id}{hosts[1]}"
             }
         }
         if match['match']['name'] == '':
