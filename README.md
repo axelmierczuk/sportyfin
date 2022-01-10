@@ -6,7 +6,7 @@ Stream sports events straight from your Jellyfin server. Sportyfin allows users 
 streamed events and watch straight from Jellyfin. Sportyfin also generates meta-data that is used
 in Jellyfin to provide a great viewing experience.
 
-Currently, Sportyfin supports NBA, NHL and NFL livestreams, but we plan to support other leagues in the future.
+Currently, Sportyfin supports NBA, NHL, NFL and Premier League livestreams, but we plan to support other leagues in the future.
 
 
 ## Installation
@@ -62,7 +62,7 @@ Once the path has been defined, you can check out your streams under:
 
 ## Documentation
 
-Find all the documentation [here]() (will update link with documentation once it is finished).
+Find all the documentation [here](https://sportyfin-doc.readthedocs.io/en/latest/index.html).
 
 ## Future Improvement
 
