@@ -166,6 +166,6 @@ def run(argv: list):
             collector.collect()
             collector.generate_docs()
             p(f"Waiting {minutes} minutes until next update", colours.WARNING, otype.REGULAR)
-            time.sleep(minutes * 60)
+            time.sleep(int(int(minutes) * 60))
     except Exception as e:
         p(e, colours.FAIL, otype.ERROR, e)
