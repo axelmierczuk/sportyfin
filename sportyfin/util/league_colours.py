@@ -109,7 +109,33 @@ class LeagueColours:
                 "Winnipeg Jets": [(4, 30, 66), (0, 76, 151)]
             },
             EF: {
-
+                "Arsenal": [(239, 1, 7), (219, 0, 7)],
+                "Aston Villa FC": [(149, 191, 229), (103, 14, 54)],
+                "AFC Bournemouth": [(218, 41, 28), (181, 14, 18)],
+                "Brighton & Hove Albion": [(0, 87, 184), (255, 205, 0)],
+                "Burnley Football Club": [(108, 29, 69), (153, 214, 234)],
+                "Chelsea FC": [(3, 70, 148), (238, 36, 44)],
+                "Crystal Palace FC": [(27, 69, 143), (167, 165, 166)],
+                "Everton FC": [(39, 68, 136), (255, 255, 255)],
+                "Leicester City Football Club": [(0, 83, 160), (253, 190, 17)],
+                "Liverpool FC": [(200, 16, 46), (0, 178, 169)],
+                "Manchester City FC": [(108, 171, 221), (28, 44, 91)],
+                "Manchester United": [(218, 41, 28), (251, 225, 34)],
+                "Newcastle United FC": [(45, 41, 38), (255, 255, 255)],
+                "Norwich City": [(255, 242, 0), (0, 166, 80)],
+                "Sheffield United": [(238, 39, 55), (13, 23, 26)],
+                "Southampton FC": [(215, 25, 32), (19, 12, 14)],
+                "Tottenham Hotspur": [(19, 34, 87)],
+                "Watford FC": [(251, 238, 35), (237, 33, 39)],
+                "West Ham United": [(122, 38, 58), (27, 177, 231)],
+                "Wolverhampton Wanderers": [(253, 185, 19), (35, 31, 32)],
+                "Cardiff City": [(0, 112, 181), (209, 21, 36)],
+                "Fulham FC": [(204, 0, 0), (0, 0, 0)],
+                "Huddersfield Town": [(14, 99, 173), (255, 255, 255)],
+                "Leeds United Football Club": [(255, 205, 0), (29, 66, 138)],
+                "Stoke City FC": [(224, 58, 62), (27, 68, 156)],
+                "Swansea City AFC": [(18, 18, 18)],
+                "West Bromwich Albion": [(18, 47, 103), (255, 255, 255)],
             }
 
         }
