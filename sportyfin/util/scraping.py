@@ -207,11 +207,12 @@ def find_streams(lg: str) -> list:
     """
     Finds current games that are active for a given league.
     """
+    STREAM_LINK = os.environ.get('stream_link')
     p(f"COLLECTING {lg.upper()} STREAMING LINKS", colours.HEADER, otype.REGULAR)
     res = []
     games = []
     date = datetime.datetime.today().strftime('%Y-%m-%d')
-    hosts = ["https://sportscentral.io/streams-table/"]
+    hosts = [f"{STREAM_LINK}/streams-table/"]
     path = None
     if lg == NHL:
         path = "nhl-tournaments"
@@ -224,13 +225,13 @@ def find_streams(lg: str) -> list:
         hosts.append("/basketball?new-ui=1&origin=reddit.rnbastreams.com")
     elif lg == EF:
         hosts.append("/soccer?new-ui=1&origin=redi1.soccerstreams.net")
-        api_res = json.loads(r.get(f"https://sportscentral.io/new-api/matches?timeZone=300&date={date}").content)
+        api_res = json.loads(r.get(f"{STREAM_LINK}/new-api/matches?timeZone=300&date={date}").content)
         for i in api_res:
             if i['country']['name'] == "England":
                 games.extend(make_match(i['events'], hosts, lg))
 
     if path:
-        main_link = f"https://sportscentral.io/api/{path}?date={date}"
+        main_link = f"{STREAM_LINK}/api/{path}?date={date}"
         api_res = json.loads(r.request("GET", main_link).content)[0]['events']
         games = make_match(api_res, hosts, lg)
 

@@ -99,6 +99,9 @@ def run(argv: list):
     global OUTPUT
     minutes = 30
     try:
+        stream_link = input("Please enter a link you would like scrape: ")
+        os.environ['stream_link'] = stream_link
+
         if "-v" in argv:
             os.environ["verbosity"] = "0"
         else:
