@@ -10,6 +10,7 @@ load_dotenv()
 NBA = "nba"
 NHL = "nhl"
 NFL = "nfl"
+EF = "English Football"
 leagues = []
 OUTPUT = os.path.join(os.getcwd(), "output")
 os.environ['output'] = OUTPUT
@@ -44,7 +45,8 @@ class StreamCollector:
         self.streaming_sites = {
             NBA: scraping.find_streams(NBA) if NBA in leagues else [],
             NHL: scraping.find_streams(NHL) if NHL in leagues else [],
-            NFL: scraping.find_streams(NFL) if NFL in leagues else []
+            NFL: scraping.find_streams(NFL) if NFL in leagues else [],
+            EF: scraping.find_streams(EF) if EF in leagues else [],
         }
         self.leagues: list = leagues
 
@@ -115,12 +117,15 @@ def run(argv: list):
             leagues.append(NHL)
         if "-nfl" in argv:
             leagues.append(NFL)
+        if "-ef" in argv:
+            leagues.append(EF)
         if "-a" in argv and len(leagues) == 0:
             leagues.append(NBA)
             leagues.append(NHL)
             leagues.append(NFL)
+            leagues.append(EF)
         elif "-a" in argv and len(leagues) != 0:
-            p("Cannot pass --a with --nba/--nfl/--nhl", colours.FAIL, otype.ERROR)
+            p("Cannot pass -a with -nba/-nfl/-nhl/-ef", colours.FAIL, otype.ERROR)
             sys.exit()
         if "-t" in argv:
             try:

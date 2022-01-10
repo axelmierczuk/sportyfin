@@ -1,6 +1,8 @@
 NBA = "nba"
 NHL = "nhl"
 NFL = "nfl"
+EF = "English Football"
+
 
 class LeagueColours:
     def __init__(self, lg: str):
@@ -105,7 +107,11 @@ class LeagueColours:
                 "Vegas Golden Knights": [(185, 151, 91), (51, 63, 72)],
                 "Washington Capitals": [(4, 30, 66), (200, 16, 46)],
                 "Winnipeg Jets": [(4, 30, 66), (0, 76, 151)]
+            },
+            EF: {
+
             }
+
         }
 
     def get_helper(self, tn: str, pos: int):

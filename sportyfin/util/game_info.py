@@ -11,6 +11,7 @@ load_dotenv()
 NBA = "nba"
 NHL = "nhl"
 NFL = "nfl"
+EF = "English Football"
 
 
 def download_jpg(lp: list) -> list:
@@ -101,44 +102,3 @@ def generate_img(m, sport: str) -> str:
         else:
             return ""
     return op
-
-
-def generate_team_info(img_tag) -> dict:
-    return {
-        "name": str(img_tag.get('alt')),
-        "icon_url": str(img_tag.get('src') if str(img_tag.get('src')).find('?') == -1 else str(img_tag.get('src'))[
-                                                                                       :str(img_tag.get('src')).find(
-                                                                                           '?')])
-    }
-
-def get_img_from_tag(tag):
-    for h in tag:
-        if len(h.get("alt")) > 0:
-            return h
-    return None
-
-
-def get_game_info_nba(tag, league):
-    try:
-        # This works for NHL and NBA
-        if league == NBA:
-            home_team_tags = tag.find('span', attrs={'class': "logo home-team competition-cell-table-cell"}).find_all('img')
-            away_team_tags = tag.find('span', attrs={'class': "competition-cell-table-cell competition-cell-side2"}).find_all(
-                'img')
-            h_img = get_img_from_tag(home_team_tags)
-            a_img = get_img_from_tag(away_team_tags)
-
-            match = {
-                "home_team": generate_team_info(h_img),
-                "away_team": generate_team_info(a_img),
-                "match": {
-                }
-            }
-        match['match']['name'] = f"{match['away_team']['name']} vs {match['home_team']['name']}"
-        match['match']['img_location'] = generate_img(match, league)
-        return match
-    except KeyboardInterrupt:
-        sys.exit()
-        pass
-    except Exception as ex:
-        pretty_print.p("Error getting team information", pretty_print.colours.FAIL, pretty_print.otype.ERROR, ex)

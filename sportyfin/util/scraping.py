@@ -22,6 +22,7 @@ except ImportError:
 NBA = "nba"
 NHL = "nhl"
 NFL = "nfl"
+EF = "English Football"
 
 
 def flatten_json(y: dict) -> dict:
@@ -172,76 +173,80 @@ def pull_bitly_link(link) -> list:
     return res
 
 
+def make_match(api_res, hosts, lg) -> list:
+    games = []
+    for g in api_res:
+        try:
+            in_progress = g['status']['type'] == 'inprogress'
+        except:
+            in_progress = False
+        try:
+            start_time = int(g['startTime'][:-3])
+        except:
+            start_time = 9999
+        if start_time - datetime.datetime.now().hour < 2 or in_progress or True:
+            ht = g['homeTeam']
+            at = g['awayTeam']
+            match = {
+                "home_team": {
+                    "name": ht['name'],
+                    "icon_url": ht['logo']
+                },
+                "away_team": {
+                    "name": at['name'],
+                    "icon_url": at['logo']
+                },
+                "match": {
+                    "name": g.get('name', ''),
+                    "img_location": "",
+                    "url": f"{hosts[0]}{str(g['eventLink']).split('/')[-1]}{hosts[1]}"
+                }
+            }
+            if match['match']['name'] == '':
+                match['match']['name'] = f"{match['away_team']['name']} vs {match['home_team']['name']}"
+            match['match']['img_location'] = game_info.generate_img(match, lg)
+            p(f"Found - {match['match']['name']}", colours.OKGREEN, otype.REGULAR)
+            pind2(f"URL - {match['match']['url']}", colours.OKCYAN, otype.DEBUG)
+            pind2(f"ICON - {match['match']['img_location']}", colours.OKCYAN, otype.DEBUG)
+            games.append(match)
+    return games
+
+
 def find_streams(lg: str) -> list:
     """
     Finds current games that are active for a given league.
     """
-    res = []
     p(f"COLLECTING {lg.upper()} STREAMING LINKS", colours.HEADER, otype.REGULAR)
-    if lg == NBA:
-        games = []
-        parsed_html = BeautifulSoup(r.request("GET", "https://reddit.rnbastreams.com/").text, features="lxml")
-        parsed_html = parsed_html.find('ul', attrs={'class': 'competitions'})
-        for tag in parsed_html.find_all('a', attrs={'href': re.compile(f'/game/.*')}):
-            try:
-                game_hour = int(tag.find('span', attrs={"class": "competition-cell-status"}).text[
-                                :-3]) - datetime.datetime.now().hour < 2
-            except:
-                game_hour = False
-            if (len(tag.find_all('span', string="Full time ")) == 0 and len(
-                    tag.find_all('i', attrs={"class": "icon-clock"})) == 0) or game_hour:
-                match = game_info.get_game_info_nba(tag, lg)
-                match['match'][
-                    'url'] = f"https://sportscentral.io/streams-table/{tag.get('href')[-6:]}/basketball?new-ui=1&origin=reddit.rnbastreams.com"
-                p(f"Found - {match['match']['name']}", colours.OKGREEN, otype.REGULAR)
-                pind2(f"URL - {match['match']['url']}", colours.OKCYAN, otype.DEBUG)
-                pind2(f"ICON - {match['match']['img_location']}", colours.OKCYAN, otype.DEBUG)
-                games.append(match)
-        for match in games:
-            match['match']['url'] = pull_bitly_link(match['match']['url'])
-            if not (len(match['match']['url']) == 0 or match in res):
-                res.append(match)
-    elif lg == NHL or lg == NFL:
-        if lg == NHL:
-            path = "nhl-tournaments"
-            host1 = "https://sportscentral.io/streams-table/"
-            host2 = "/ice-hockey?new-ui=1&origin=live.redditnhlstreams.com"
-        else:
-            path = "nfl-tournaments-week"
-            host1 = "https://sportscentral.io/streams-table/"
-            host2 = "/american-football?new-ui=1&origin=official.nflstreams.to"
-        games = []
-        date = datetime.datetime.today().strftime('%Y-%m-%d')
+    res = []
+    games = []
+    date = datetime.datetime.today().strftime('%Y-%m-%d')
+    hosts = ["https://sportscentral.io/streams-table/"]
+    path = None
+    if lg == NHL:
+        path = "nhl-tournaments"
+        hosts.append("/ice-hockey?new-ui=1&origin=live.redditnhlstreams.com")
+    elif lg == NFL:
+        path = "nfl-tournaments-week"
+        hosts.append("/american-football?new-ui=1&origin=official.nflstreams.to")
+    elif lg == NBA:
+        path = "nba-tournaments"
+        hosts.append("/basketball?new-ui=1&origin=reddit.rnbastreams.com")
+    elif lg == EF:
+        hosts.append("/soccer?new-ui=1&origin=redi1.soccerstreams.net")
+        api_res = json.loads(r.get(f"https://sportscentral.io/new-api/matches?timeZone=300&date={date}").content)
+        for i in api_res:
+            if i['country']['name'] == "England":
+                games.extend(make_match(i['events'], hosts, lg))
+
+    if path:
         main_link = f"https://sportscentral.io/api/{path}?date={date}"
         api_res = json.loads(r.request("GET", main_link).content)[0]['events']
-        for g in api_res:
-            if int(g['startTime'][:-3]) - datetime.datetime.now().hour < 2 or g['status']['type'] == 'inprogress':
-                ht = g['homeTeam']
-                at = g['awayTeam']
-                match = {
-                    "home_team": {
-                        "name": ht['name'],
-                        "icon_url": ht['logo']
-                    },
-                    "away_team": {
-                        "name": at['name'],
-                        "icon_url": at['logo']
-                    },
-                    "match": {
-                        "name": g['name'],
-                        "img_location": "",
-                        "url": f"{host1}{str(g['eventLink']).split('/')[-1]}{host2}"
-                    }
-                }
-                match['match']['img_location'] = game_info.generate_img(match, lg)
-                p(f"Found - {match['match']['name']}", colours.OKGREEN, otype.REGULAR)
-                pind2(f"URL - {match['match']['url']}", colours.OKCYAN, otype.DEBUG)
-                pind2(f"ICON - {match['match']['img_location']}", colours.OKCYAN, otype.DEBUG)
-                games.append(match)
-        for match in games:
-            match['match']['url'] = pull_bitly_link(match['match']['url'])
-            if not (len(match['match']['url']) == 0 or match in res):
-                res.append(match)
+        games = make_match(api_res, hosts, lg)
+
+    for match in games:
+        match['match']['url'] = pull_bitly_link(match['match']['url'])
+        if not (len(match['match']['url']) == 0 or match in res):
+            res.append(match)
     if len(res) == 0:
         p(f"COULD NOT FIND {lg.upper()} GAMES", colours.FAIL, otype.ERROR)
     return res
