@@ -33,7 +33,7 @@ def header():
     print(f"{colours.OKGREEN}             is used in Jellyfin to provide a great viewing experience.")
     print()
     print(f"{colours.OKGREEN}    Author: Axel Mierczuk")
-    print(f"{colours.OKGREEN}    Version: 0.1.10 (Beta)")
+    print(f"{colours.OKGREEN}    Version: 0.1.11 (Beta)")
     print(f"{colours.OKGREEN}    Github: https://github.com/axelmierczuk/sportyfin")
     print()
     print()
