@@ -176,39 +176,30 @@ def pull_bitly_link(link) -> list:
 def make_match(api_res, hosts, lg) -> list:
     games = []
     for g in api_res:
-        try:
-            in_progress = g['status']['type'] == 'inprogress'
-        except:
-            in_progress = False
-        try:
-            start_time = int(g['startTime'][:-3])
-        except:
-            start_time = 9999
-        if start_time - datetime.datetime.now().hour < 2 or in_progress or True:
-            ht = g['homeTeam']
-            at = g['awayTeam']
-            match = {
-                "home_team": {
-                    "name": ht['name'],
-                    "icon_url": ht['logo']
-                },
-                "away_team": {
-                    "name": at['name'],
-                    "icon_url": at['logo']
-                },
-                "match": {
-                    "name": g.get('name', ''),
-                    "img_location": "",
-                    "url": f"{hosts[0]}{str(g['eventLink']).split('/')[-1]}{hosts[1]}"
-                }
+        ht = g['homeTeam']
+        at = g['awayTeam']
+        match = {
+            "home_team": {
+                "name": ht['name'],
+                "icon_url": ht['logo']
+            },
+            "away_team": {
+                "name": at['name'],
+                "icon_url": at['logo']
+            },
+            "match": {
+                "name": g.get('name', ''),
+                "img_location": "",
+                "url": f"{hosts[0]}{str(g['eventLink']).split('/')[-1]}{hosts[1]}"
             }
-            if match['match']['name'] == '':
-                match['match']['name'] = f"{match['away_team']['name']} vs {match['home_team']['name']}"
-            match['match']['img_location'] = game_info.generate_img(match, lg)
-            p(f"Found - {match['match']['name']}", colours.OKGREEN, otype.REGULAR)
-            pind2(f"URL - {match['match']['url']}", colours.OKCYAN, otype.DEBUG)
-            pind2(f"ICON - {match['match']['img_location']}", colours.OKCYAN, otype.DEBUG)
-            games.append(match)
+        }
+        if match['match']['name'] == '':
+            match['match']['name'] = f"{match['away_team']['name']} vs {match['home_team']['name']}"
+        match['match']['img_location'] = game_info.generate_img(match, lg)
+        p(f"Found - {match['match']['name']}", colours.OKGREEN, otype.REGULAR)
+        pind2(f"URL - {match['match']['url']}", colours.OKCYAN, otype.DEBUG)
+        pind2(f"ICON - {match['match']['img_location']}", colours.OKCYAN, otype.DEBUG)
+        games.append(match)
     return games
 
 
