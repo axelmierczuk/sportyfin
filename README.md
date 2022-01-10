@@ -32,7 +32,7 @@ We highly recommend running Sportyfin in combination with [tmux](https://man7.or
 Example usage:
 
 ```bash
-python3 -m sportyfin #arguments
+python3 -m sportyfin -url "SomeURL" #arguments
 ```
 
 Start the sportyfin server as follows:
@@ -42,14 +42,14 @@ Start the sportyfin server as follows:
 # -v enables verbose mode
 # -o enables selecting output location
 
-python3 -m sportyfin -nba -s -v -o ~/Desktop
+python3 -m sportyfin -nba -s -v -o ~/Desktop -url "SomeURL"
 ```
 
 ```bash
 # -vv specifies silent mode (no output will be produced)
 # -a specifies all leagues supported by sportyfin
 
-python3 -m sportyfin -a -vv
+python3 -m sportyfin -a -vv -url "SomeURL"
 ```
 
 Once you have run the program, make sure to link to the .m3u's in the Jellyfin dashboard:
