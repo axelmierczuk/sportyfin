@@ -132,7 +132,7 @@ def run(argv: list):
             sys.exit()
         if "-t" in argv:
             try:
-                if argv.index("-o") + 1 >= len(argv):
+                if argv.index("-t") + 1 >= len(argv):
                     raise Exception("Missing time input (in minutes)")
                 minutes = argv[argv.index("-t") + 1]
                 if minutes.startswith("-"):
