@@ -67,7 +67,7 @@ Find all the documentation [here](https://sportyfin-doc.readthedocs.io/en/latest
 
 ## Update
 
-You now need to provide a link to scrape since this is not a tool that should be used for piracy. Try: https://sportscentral.io for example.
+As of 0.1.13, you now **need** to provide your own url to scrape since this is not a tool that should be used for piracy. Try: https://sportscentral.io for example.
 
 
 ## Future Improvement
