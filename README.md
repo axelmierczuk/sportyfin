@@ -54,6 +54,8 @@ python3 -m sportyfin -nba -s -v -o ~/Desktop
 python3 -m sportyfin -a -vv
 ```
 
+**See the full list of arguments [here](https://sportyfin-doc.readthedocs.io/en/latest/index.html).**
+
 Once you have run the program, make sure to link to the .m3u's in the Jellyfin dashboard:
 
 `Dashboard > Live TV > Tuner Devices (+) > Tuner Type (M3U Tuner) > File or URL (enter path)`
