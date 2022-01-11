@@ -13,7 +13,9 @@ Currently, Sportyfin supports NBA, NHL, NFL and Premier League livestreams, but 
 
 ## Installation
 
-To install Sportyfin with your running instance of Jellyfin, follow the steps bellow:
+### Pip
+
+To install Sportyfin with pip, follow the steps bellow:
 
 
 ```bash
@@ -26,7 +28,9 @@ To uninstall the program:
 pip uninstall sportyfin
 ```
 
-**NEW:** With Docker you can install as follows:
+### Docker
+
+To install Sportyfin with Docker, follow the steps bellow:
 
 ```bash
 git clone <repo>
@@ -35,6 +39,13 @@ docker build --tag sportyfin .
 docker run -v <Path Where You Want Output>:/sportyfin/output sportyfin 
 
 # For example: docker run -v ~/Desktop:/sportyfin/output sportyfin 
+```
+
+_OR_ you may pull the container with the following:
+
+```bash
+docker pull sportyfin/sportyfin:latest 
+docker run -v <Path Where You Want Output>:/sportyfin/output sportyfin/sportyfin:latest
 ```
 
 ## Usage
