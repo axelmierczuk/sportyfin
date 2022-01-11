@@ -75,6 +75,8 @@ Once the path has been defined and the settings have been updated, you can check
 
 `Home > Live TV > Channels (at the top)`
 
+!['Dashboard'](https://i.ibb.co/yS5ycS6/Screen-Shot-2022-01-11-at-11-08-08-AM.png)
+
 ## Documentation
 
 Find all the documentation [here](https://sportyfin-doc.readthedocs.io/en/latest/index.html).
