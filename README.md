@@ -22,11 +22,6 @@ To install Sportyfin with pip, follow the steps bellow:
 pip install sportyfin --no-binary=sportyfin
 ```
 
-To uninstall the program:
-
-```bash
-pip uninstall sportyfin
-```
 
 ### Docker
 
