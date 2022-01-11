@@ -1,6 +1,6 @@
 # Sportyfin
 
-###For Educational Purposes Only
+### **For Educational Purposes Only**
 
 ## Description
 
