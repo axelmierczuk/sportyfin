@@ -58,6 +58,10 @@ Once you have run the program, make sure to link to the .m3u's in the Jellyfin d
 
 `Dashboard > Live TV > Tuner Devices (+) > Tuner Type (M3U Tuner) > File or URL (enter path)`
 
+!['Dashboard'](https://i.ibb.co/7Vxvqkp/Screen-Shot-2022-01-11-at-10-47-26-AM.png)
+
+!['Dashboard'](https://i.ibb.co/VH6b0Hc/Screen-Shot-2022-01-11-at-10-47-42-AM.png)
+
 Additionally, make sure to change the "Refresh Guide" setting under:
 
 `Dashboard > Scheduled Tasks > Live TV > Refresh Guide > Task Triggers`
