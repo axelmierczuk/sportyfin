@@ -1,5 +1,7 @@
 # Sportyfin
 
+### **For Educational Purposes Only**
+
 ## Description
 
 Stream sports events straight from your Jellyfin server. Sportyfin allows users to scrape for live
@@ -52,17 +54,30 @@ python3 -m sportyfin -nba -s -v -o ~/Desktop
 python3 -m sportyfin -a -vv
 ```
 
+**See the full list of arguments [here](https://sportyfin-doc.readthedocs.io/en/latest/usage.html#installation).**
+
 Once you have run the program, make sure to link to the .m3u's in the Jellyfin dashboard:
 
 `Dashboard > Live TV > Tuner Devices (+) > Tuner Type (M3U Tuner) > File or URL (enter path)`
+
+!['Dashboard'](https://i.ibb.co/7Vxvqkp/Screen-Shot-2022-01-11-at-10-47-26-AM.png)
+
+!['Dashboard'](https://i.ibb.co/VH6b0Hc/Screen-Shot-2022-01-11-at-10-47-42-AM.png)
 
 Additionally, make sure to change the "Refresh Guide" setting under:
 
 `Dashboard > Scheduled Tasks > Live TV > Refresh Guide > Task Triggers`
 
+
+!['Dashboard'](https://i.ibb.co/q7mhTMt/Screen-Shot-2022-01-11-at-10-58-57-AM.png)
+
+!['Dashboard'](https://i.ibb.co/JxcdXC3/Screen-Shot-2022-01-11-at-10-59-11-AM.png)
+
 Once the path has been defined and the settings have been updated, you can check out your streams under:
 
 `Home > Live TV > Channels (at the top)`
+
+!['Dashboard'](https://i.ibb.co/yS5ycS6/Screen-Shot-2022-01-11-at-11-08-08-AM.png)
 
 ## Documentation
 
