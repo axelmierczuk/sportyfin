@@ -56,7 +56,11 @@ Once you have run the program, make sure to link to the .m3u's in the Jellyfin d
 
 `Dashboard > Live TV > Tuner Devices (+) > Tuner Type (M3U Tuner) > File or URL (enter path)`
 
-Once the path has been defined, you can check out your streams under:
+Additionally, make sure to change the "Refresh Guide" setting under:
+
+`Dashboard > Scheduled Tasks > Live TV > Refresh Guide > Task Triggers`
+
+Once the path has been defined and the settings have been updated, you can check out your streams under:
 
 `Home > Live TV > Channels (at the top)`
 
