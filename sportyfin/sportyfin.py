@@ -33,7 +33,7 @@ def header():
     print(f"{colours.OKGREEN}             is used in Jellyfin to provide a great viewing experience.")
     print()
     print(f"{colours.OKGREEN}    Author: Axel Mierczuk")
-    print(f"{colours.OKGREEN}    Version: 0.1.16 (Beta)")
+    print(f"{colours.OKGREEN}    Version: 0.1.17 (Beta)")
     print(f"{colours.OKGREEN}    Github: https://github.com/axelmierczuk/sportyfin")
     print()
     print()
@@ -71,6 +71,7 @@ class StreamCollector:
                 ET.SubElement(doc, "icon").text = f"{OUTPUT}/{lg}/{match['match']['img_location'].split('/')[-1]}"
         tree = ET.ElementTree(root)
         outp = os.path.join(OUTPUT, f"docs")
+        print(outp)
         if not os.path.isdir(f"{OUTPUT}"):
             os.makedirs(f"{OUTPUT}")
             os.makedirs(f"{outp}")
@@ -81,7 +82,7 @@ class StreamCollector:
 
     def generate_m3u(self, lg: str):
         with open(os.path.join(*[OUTPUT, "docs", f"{lg}.m3u"]), 'w') as file:
-            file.write(f"""#EXTM3U x-tvg-url="{os.path.join(*[OUTPUT, "docs", f"{lg}.m3u"])}"\n""")
+            file.write(f"""#EXTM3U x-tvg-url="{os.path.join(*[OUTPUT, "docs", f"{lg}.xml"])}"\n""")
             for match in self.streaming_sites[lg]:
                 for url in match['match']['m3u8_urls']:
                     file.write(f"""#EXTINF:-1 tvg-id="{url}" tvg-country="USA" tvg-language="English" tvg-logo="{os.path.join(*[OUTPUT, lg, match['match']['img_location'].split('/')[-1]])}" group-title="{lg}",{match['match']['name']}\n""")
@@ -142,16 +143,17 @@ def run(argv: list):
                 if argv.index("-o") + 1 >= len(argv):
                     raise Exception("Missing output location")
                 dp = str(argv[argv.index("-o") + 1])
-                if not dp.endswith('/'):
+                OUTPUT = os.path.join(*[dp, "output"])
+                if dp.startswith('~') and os.name == 'nt':
+                    OUTPUT = os.path.join(os.path.expandvars("%userprofile%"), dp[2:])
+                elif not dp.startswith('/') and not dp.startswith('~'):
                     if dp.startswith('.'):
-                        d = dp[2:]
-                        OUTPUT = os.path.join(*[os.getcwd(), d, "output"])
-                    if not dp.startswith('/'):
-                        OUTPUT = os.path.join(*[os.getcwd(), dp, "output"])
+                        OUTPUT = os.path.join(*[os.getcwd(), dp[2:], "output"])
                     else:
-                        OUTPUT = os.path.join(dp, "output")
+                        OUTPUT = os.path.join(*[os.getcwd(), dp, "output"])
                 if OUTPUT.startswith("-"):
                     raise Exception("Missing output location")
+                print(OUTPUT)
                 os.environ['output'] = OUTPUT
             except Exception as e:
                 p(e, colours.FAIL, otype.ERROR)
