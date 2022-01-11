@@ -66,6 +66,11 @@ Additionally, make sure to change the "Refresh Guide" setting under:
 
 `Dashboard > Scheduled Tasks > Live TV > Refresh Guide > Task Triggers`
 
+
+!['Dashboard'](https://i.ibb.co/q7mhTMt/Screen-Shot-2022-01-11-at-10-58-57-AM.png)
+
+!['Dashboard'](https://i.ibb.co/JxcdXC3/Screen-Shot-2022-01-11-at-10-59-11-AM.png)
+
 Once the path has been defined and the settings have been updated, you can check out your streams under:
 
 `Home > Live TV > Channels (at the top)`
