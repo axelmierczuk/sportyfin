@@ -34,6 +34,7 @@ docker build --tag sportyfin .
 docker run -v <Path Where You Want Output>:/sportyfin/output sportyfin 
 
 # For example: docker run -v ~/Desktop:/sportyfin/output sportyfin 
+# You can edit the paramaters that sportyfin runs with from the Dockerfile
 ```
 
 _OR_ you may pull the container with the following:
@@ -41,6 +42,8 @@ _OR_ you may pull the container with the following:
 ```bash
 docker pull sportyfin/sportyfin:latest 
 docker run -v <Path Where You Want Output>:/sportyfin/output sportyfin/sportyfin:latest
+
+# You CANNOT edit the paramaters that sportyfin runs with when pulling the image
 ```
 
 ## Usage
