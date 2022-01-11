@@ -75,8 +75,7 @@ def selenium_find(link: str) -> list:
                     list_of_dict_values = list(obj.values())
                     for value in list_of_dict_values:
                         if str(value).find("m3u8") > -1 and str(value) not in res:
-                            reqstatus = r.get(value, allow_redirects=True).status_code
-                            if reqstatus == 200:
+                            if int(r.get(value, allow_redirects=True).status_code) == 200:
                                 pind2(f"Found a stream - {str(value)}", colours.OKGREEN, otype.REGULAR)
                             res.append(value)
             except KeyboardInterrupt:
@@ -105,8 +104,9 @@ def html_find(link: str) -> list:
         for match in re.findall(r"([\'][^\'\"]+(\.m3u8)[^\'\"]*[\'])|([\"][^\'\"]+(\.m3u8)[^\'\"]*[\"])", content):
             for i in match:
                 if (i.count("\'") == 2 and i.count("\"") == 0) or (i.count("\"") == 2 and i.count("\'") == 0) and ".m3u8" in i and i[1:-1] not in res:
-                    res.append(i[1:-1])
-                    pind2(f"Found a stream - {str(i[1:-1])}", colours.OKGREEN, otype.REGULAR)
+                    if int(r.get(i[1:-1], allow_redirects=True).status_code) == 200:
+                        res.append(i[1:-1])
+                        pind2(f"Found a stream - {str(i[1:-1])}", colours.OKGREEN, otype.REGULAR)
     except Exception as e:
         pass
     return res
