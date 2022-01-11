@@ -33,7 +33,7 @@ def header():
     print(f"{colours.OKGREEN}             is used in Jellyfin to provide a great viewing experience.")
     print()
     print(f"{colours.OKGREEN}    Author: Axel Mierczuk")
-    print(f"{colours.OKGREEN}    Version: 0.1.17 (Beta)")
+    print(f"{colours.OKGREEN}    Version: 0.1.18 (Beta)")
     print(f"{colours.OKGREEN}    Github: https://github.com/axelmierczuk/sportyfin")
     print()
     print()
@@ -71,7 +71,6 @@ class StreamCollector:
                 ET.SubElement(doc, "icon").text = f"{OUTPUT}/{lg}/{match['match']['img_location'].split('/')[-1]}"
         tree = ET.ElementTree(root)
         outp = os.path.join(OUTPUT, f"docs")
-        print(outp)
         if not os.path.isdir(f"{OUTPUT}"):
             os.makedirs(f"{OUTPUT}")
             os.makedirs(f"{outp}")
@@ -153,7 +152,6 @@ def run(argv: list):
                         OUTPUT = os.path.join(*[os.getcwd(), dp, "output"])
                 if OUTPUT.startswith("-"):
                     raise Exception("Missing output location")
-                print(OUTPUT)
                 os.environ['output'] = OUTPUT
             except Exception as e:
                 p(e, colours.FAIL, otype.ERROR)
