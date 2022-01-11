@@ -26,6 +26,16 @@ To uninstall the program:
 pip uninstall sportyfin
 ```
 
+**NEW:** With Docker you can install as follows:
+
+```bash
+git clone <repo>
+cd sportyfin
+docker build --tag sportyfin .
+docker run -v <Path Where You Want Output>:/sportyfin/output sportyfin 
+
+# For example: docker run -v ~/Desktop:/sportyfin/output sportyfin 
+```
 
 ## Usage
 
