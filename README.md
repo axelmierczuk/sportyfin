@@ -1,5 +1,7 @@
 # Sportyfin
 
+###**For Educational Purposes Only**
+
 ## Description
 
 Stream sports events straight from your Jellyfin server. Sportyfin allows users to scrape for live
