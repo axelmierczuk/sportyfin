@@ -33,7 +33,7 @@ def header():
     print(f"{colours.OKGREEN}             is used in Jellyfin to provide a great viewing experience.")
     print()
     print(f"{colours.OKGREEN}    Author: Axel Mierczuk")
-    print(f"{colours.OKGREEN}    Version: 1.0.0")
+    print(f"{colours.OKGREEN}    Version: 1.0.1")
     print(f"{colours.OKGREEN}    Github: https://github.com/axelmierczuk/sportyfin")
     print()
     print()
@@ -169,6 +169,7 @@ def run(argv: list):
                 collector.collect()
                 collector.generate_docs()
                 p(f"Waiting {minutes} minutes until next update", colours.WARNING, otype.REGULAR)
+                del collector
                 time.sleep(int(int(minutes) * 60))
     except Exception as e:
         p(e, colours.FAIL, otype.ERROR, e)
