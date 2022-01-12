@@ -159,11 +159,16 @@ def run(argv: list):
         if len(leagues) == 0:
             sys.exit()
         header()
-        while True:
+        if "-d" in argv:
             collector = StreamCollector()
             collector.collect()
             collector.generate_docs()
-            p(f"Waiting {minutes} minutes until next update", colours.WARNING, otype.REGULAR)
-            time.sleep(int(int(minutes) * 60))
+        else:
+            while True:
+                collector = StreamCollector()
+                collector.collect()
+                collector.generate_docs()
+                p(f"Waiting {minutes} minutes until next update", colours.WARNING, otype.REGULAR)
+                time.sleep(int(int(minutes) * 60))
     except Exception as e:
         p(e, colours.FAIL, otype.ERROR, e)
