@@ -195,8 +195,8 @@ def make_match(api_res, hosts, lg) -> list:
                 "name": g.get('name', ''),
                 "img_location": "",
                 "url": f"{hosts[0]}{host_id}{hosts[1]}",
-                "start": ''.join(g['formatedStartDate'].split('-')) + ''.join(g['startTime'].split(':')),
-                "stop": ''.join(g['formatedStartDate'].split('-')) + str(int(''.join(g['startTime'].split(':'))) + 300)
+                "start": ''.join(g['formatedStartDate'].split('-')) + ''.join(g['startTime'].split(':')) + " GMT",
+                "stop": ''.join(g['formatedStartDate'].split('-')) + str(int(''.join(g['startTime'].split(':'))) + 300) + " GMT"
             }
         }
         # YYYYMMDDhhmmss
