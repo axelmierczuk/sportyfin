@@ -200,8 +200,18 @@ def make_match(api_res, hosts, lg) -> list:
             }
         }
         try:
-            match['match']['start'] = ''.join(g['formatedStartDate'].split('-')) + ''.join(g['startTime'].split(':')) + " GMT"
-            match['match']['stop'] = ''.join(g['formatedStartDate'].split('-')) + str(int(''.join(g['startTime'].split(':'))) + 300) + " GMT"
+            t = ''.join(g['startTime'].split(':'))
+            if len(t) > 4:
+                t = t[:(4-len(t))]
+            t_end = str(int(t) + 300)
+            if len(t_end) < 4:
+                t_end = "0" + t_end
+            try:
+                match['match']['start'] = ''.join(g['formatedStartDate'].split('-')) + t + " GMT"
+                match['match']['stop'] = ''.join(g['formatedStartDate'].split('-')) + t_end + " GMT"
+            except:
+                match['match']['start'] = ''.join(g['startDate'].split('-')) + t + " GMT"
+                match['match']['stop'] = ''.join(g['startDate'].split('-')) + t_end + " GMT"
         except:
             pass
         if match['match']['name'] == '':
