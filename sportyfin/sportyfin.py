@@ -33,7 +33,7 @@ def header():
     print(f"{colours.OKGREEN}             is used in Jellyfin to provide a great viewing experience.")
     print()
     print(f"{colours.OKGREEN}    Author: Axel Mierczuk")
-    print(f"{colours.OKGREEN}    Version: 1.0.5")
+    print(f"{colours.OKGREEN}    Version: 1.0.6")
     print(f"{colours.OKGREEN}    Github: https://github.com/axelmierczuk/sportyfin")
     print()
     print()
@@ -70,8 +70,8 @@ class StreamCollector:
                 ET.SubElement(doc, "title", lang="en").text = match['match']['name']
                 ET.SubElement(doc, "category", lang="en").text = "sports"
                 audio = ET.Element("audio")
+                doc.append(audio)
                 ET.SubElement(audio, "stereo").text = "stereo"
-                ET.SubElement(doc, audio)
                 ET.SubElement(doc, "icon", src=f"{OUTPUT}/{lg}/{match['match']['img_location'].split('/')[-1]}")
         tree = ET.ElementTree(root)
         outp = os.path.join(OUTPUT, f"docs")
