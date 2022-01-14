@@ -194,7 +194,9 @@ def make_match(api_res, hosts, lg) -> list:
             "match": {
                 "name": g.get('name', ''),
                 "img_location": "",
-                "url": f"{hosts[0]}{host_id}{hosts[1]}"
+                "url": f"{hosts[0]}{host_id}{hosts[1]}",
+                "start": str(g['startTimestamp']),
+                "stop": str(int(g['startTimestamp']) + (3*3600))
             }
         }
         if match['match']['name'] == '':
@@ -231,8 +233,7 @@ def find_streams(lg: str) -> list:
         hosts.append("/soccer?new-ui=1&origin=redi1.soccerstreams.net")
         api_res = json.loads(r.get(f"{STREAM_LINK}/new-api/matches?timeZone=300&date={date}").content)
         for i in api_res:
-            if i['country']['name'] == "England":
-                games.extend(make_match(i['events'], hosts, lg))
+            games.extend(make_match(i['events'], hosts, lg))
 
     if path:
         main_link = f"{STREAM_LINK}/api/{path}?date={date}"
@@ -241,7 +242,7 @@ def find_streams(lg: str) -> list:
 
     for match in games:
         match['match']['url'] = pull_bitly_link(match['match']['url'])
-        if not (len(match['match']['url']) == 0 or match in res):
+        if not (len(match['match']['url']) == 0 or match in res) :
             res.append(match)
     if len(res) == 0:
         p(f"COULD NOT FIND {lg.upper()} GAMES", colours.FAIL, otype.ERROR)
