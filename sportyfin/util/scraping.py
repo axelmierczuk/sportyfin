@@ -195,10 +195,11 @@ def make_match(api_res, hosts, lg) -> list:
                 "name": g.get('name', ''),
                 "img_location": "",
                 "url": f"{hosts[0]}{host_id}{hosts[1]}",
-                "start": str(g['startTimestamp']),
-                "stop": str(int(g['startTimestamp']) + (3*3600))
+                "start": ''.join(g['formatedStartDate'].split('-')) + ''.join(g['startTime'].split(':')),
+                "stop": ''.join(g['formatedStartDate'].split('-')) + str(int(''.join(g['startTime'].split(':'))) + 300)
             }
         }
+        # YYYYMMDDhhmmss
         if match['match']['name'] == '':
             match['match']['name'] = f"{match['away_team']['name']} vs {match['home_team']['name']}"
         match['match']['img_location'] = game_info.generate_img(match, lg)
