@@ -1,3 +1,5 @@
+# *`NO LONGER MAINTAINED`*
+
 # Sportyfin
 
 ### **For Educational Purposes Only**
